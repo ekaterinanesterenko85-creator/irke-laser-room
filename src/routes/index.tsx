@@ -29,7 +29,11 @@ import {
   Sparkles,
   Menu,
 } from "lucide-react";
-import heroImage from "@/assets/hero.jpg";
+import cabinet1Asset from "@/assets/cabinet-1.jpg.asset.json";
+import cabinet2Asset from "@/assets/cabinet-2.jpg.asset.json";
+import cabinet3Asset from "@/assets/cabinet-3.jpg.asset.json";
+import irkeAparatusAsset from "@/assets/irke-aparatus.jpg.asset.json";
+import irkeMirrorAsset from "@/assets/irke-mirror.jpg.asset.json";
 
 export const Route = createFileRoute("/")({
   component: Index,
