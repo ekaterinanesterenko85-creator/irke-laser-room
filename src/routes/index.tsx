@@ -704,6 +704,7 @@ function Index() {
         <Complexes />
         <Promo />
         <About />
+        <Gallery />
         <Process />
         <FAQ />
         <Contacts />
