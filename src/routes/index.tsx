@@ -434,7 +434,17 @@ function About() {
   return (
     <section id="about" className="bg-muted/50 py-16 lg:py-24">
       <div className="container mx-auto px-4 lg:px-8">
-        <div className="mx-auto grid max-w-5xl items-center gap-12 lg:grid-cols-2">
+        <div className="mx-auto grid max-w-5xl items-start gap-12 lg:grid-cols-2">
+          <div className="relative">
+            <img
+              src={irkeAparatusAsset.url}
+              alt="Ирке Маслова — мастер лазерной эпиляции"
+              className="h-auto w-full rounded-2xl object-cover shadow-md"
+              width={800}
+              height={1000}
+              loading="lazy"
+            />
+          </div>
           <div>
             <h2 className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
               О мастере
@@ -452,18 +462,50 @@ function About() {
               Моя задача — сделать так, чтобы вы чувствовали себя комфортно, знали, чего ждать,
               и остались довольны результатом.
             </p>
+            <div className="mt-8 grid gap-4 sm:grid-cols-2">
+              {whyUs.map((item) => (
+                <Card key={item.title} className="transition-shadow hover:shadow-md">
+                  <CardContent className="p-5">
+                    <item.icon className="h-8 w-8 text-primary" />
+                    <h3 className="mt-4 font-semibold text-foreground">{item.title}</h3>
+                    <p className="mt-2 text-sm text-muted-foreground">{item.text}</p>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
           </div>
-          <div className="grid gap-4 sm:grid-cols-2">
-            {whyUs.map((item) => (
-              <Card key={item.title} className="transition-shadow hover:shadow-md">
-                <CardContent className="p-5">
-                  <item.icon className="h-8 w-8 text-primary" />
-                  <h3 className="mt-4 font-semibold text-foreground">{item.title}</h3>
-                  <p className="mt-2 text-sm text-muted-foreground">{item.text}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function Gallery() {
+  return (
+    <section className="py-16 lg:py-24">
+      <div className="container mx-auto px-4 lg:px-8">
+        <div className="mx-auto max-w-2xl text-center">
+          <h2 className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
+            Кабинет
+          </h2>
+          <p className="mt-4 text-muted-foreground">
+            Уютное пространство для комфортной процедуры
+          </p>
+        </div>
+
+        <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {[cabinet2Asset, cabinet3Asset, irkeMirrorAsset].map((asset, index) => (
+            <div key={index} className="overflow-hidden rounded-2xl">
+              <img
+                src={asset.url}
+                alt={`Фото кабинета Ирке LaserRoom ${index + 1}`}
+                className="h-64 w-full object-cover transition-transform duration-500 hover:scale-105"
+                width={600}
+                height={400}
+                loading="lazy"
+              />
+            </div>
+          ))}
         </div>
       </div>
     </section>
