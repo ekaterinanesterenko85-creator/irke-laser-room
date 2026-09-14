@@ -268,8 +268,8 @@ function Hero() {
     <section className="relative overflow-hidden">
       <div className="absolute inset-0 -z-10">
         <img
-          src={heroImage}
-          alt="Уютный кабинет лазерной эпиляции Ирке LaserRoom"
+          src={cabinet1Asset.url}
+          alt="Кабинет лазерной эпиляции Ирке LaserRoom"
           className="h-full w-full object-cover opacity-30"
           width={1920}
           height={1080}
