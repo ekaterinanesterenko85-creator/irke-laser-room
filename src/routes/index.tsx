@@ -62,7 +62,7 @@ export const Route = createFileRoute("/")({
 const PHONE = "8 909 332 90 29";
 const PHONE_RAW = "79093329029";
 const WHATSAPP_LINK = `https://wa.me/${PHONE_RAW}?text=${encodeURIComponent("Здравствуйте, хочу записаться на лазерную эпиляцию")}`;
-const TELEGRAM_LINK = "https://t.me/irkeroom";
+const TELEGRAM_LINK = "https://t.me/irke_room";
 const VK_GROUP_LINK = "https://vk.ru/club225366707";
 const VK_PERSONAL_LINK = "https://vk.ru/id460648732";
 const AVITO_LINK = "https://www.avito.ru/saratov/predlozheniya_uslug/lazernaya_epilyatsiya_3241838508";
