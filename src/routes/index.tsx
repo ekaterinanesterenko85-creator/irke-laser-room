@@ -434,34 +434,36 @@ function About() {
   return (
     <section id="about" className="bg-muted/50 py-16 lg:py-24">
       <div className="container mx-auto px-4 lg:px-8">
-        <div className="mx-auto grid max-w-5xl items-start gap-12 lg:grid-cols-2">
-          <div className="relative">
+        <div className="mx-auto grid max-w-6xl items-stretch gap-8 lg:grid-cols-[5fr_7fr] lg:gap-12">
+          <div className="relative flex">
             <img
               src={irkeAparatusAsset.url}
               alt="Ирке Маслова — мастер лазерной эпиляции"
-              className="h-auto w-full rounded-2xl object-cover shadow-md"
+              className="h-full min-h-[28rem] w-full rounded-2xl object-cover shadow-md"
               width={800}
               height={1000}
               loading="lazy"
             />
           </div>
-          <div>
-            <h2 className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
-              О мастере
-            </h2>
-            <p className="mt-6 text-lg text-muted-foreground">
-              Меня зовут Ирке Маслова. Я работаю с лазерной эпиляцией с июня 2023 года, прошла
-              профильное обучение и подобрала аппарат, которому доверяю.
-            </p>
-            <p className="mt-4 text-muted-foreground">
-              В кабинете важно не только качество процедуры, но и атмосфера. Сюда можно прийти
-              со своими вопросами и неловкими сомнениями — я отвечу честно и спокойно, без
-              давления и «волшебных обещаний».
-            </p>
-            <p className="mt-4 text-muted-foreground">
-              Моя задача — сделать так, чтобы вы чувствовали себя комфортно, знали, чего ждать,
-              и остались довольны результатом.
-            </p>
+          <div className="flex flex-col justify-between">
+            <div>
+              <h2 className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
+                О мастере
+              </h2>
+              <p className="mt-6 text-lg text-muted-foreground">
+                Меня зовут Ирке Маслова. Я работаю с лазерной эпиляцией с июня 2023 года, прошла
+                профильное обучение и подобрала аппарат, которому доверяю.
+              </p>
+              <p className="mt-4 text-muted-foreground">
+                В кабинете важно не только качество процедуры, но и атмосфера. Сюда можно прийти
+                со своими вопросами и неловкими сомнениями — я отвечу честно и спокойно, без
+                давления и «волшебных обещаний».
+              </p>
+              <p className="mt-4 text-muted-foreground">
+                Моя задача — сделать так, чтобы вы чувствовали себя комфортно, знали, чего ждать,
+                и остались довольны результатом.
+              </p>
+            </div>
             <div className="mt-8 grid gap-4 sm:grid-cols-2">
               {whyUs.map((item) => (
                 <Card key={item.title} className="transition-shadow hover:shadow-md">
