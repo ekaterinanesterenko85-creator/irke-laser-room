@@ -13,6 +13,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedRouteRouteImport } from './routes/_authenticated/route'
 import { Route as AdminRouteImport } from './routes/admin'
 import { Route as AuthenticatedPanelRouteImport } from './routes/_authenticated/panel'
+import { Route as ApiChatRouteImport } from './routes/api/chat'
 import { Route as ApiPublicSiteImageSplatRouteImport } from './routes/api/public/site-image/$'
 
 const IndexRoute = IndexRouteImport.update({
@@ -34,6 +35,11 @@ const AuthenticatedPanelRoute = AuthenticatedPanelRouteImport.update({
   path: '/panel',
   getParentRoute: () => AuthenticatedRouteRoute,
 } as any)
+const ApiChatRoute = ApiChatRouteImport.update({
+  id: '/api/chat',
+  path: '/api/chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicSiteImageSplatRoute = ApiPublicSiteImageSplatRouteImport.update({
   id: '/api/public/site-image/$',
   path: '/api/public/site-image/$',
@@ -44,12 +50,14 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
   '/panel': typeof AuthenticatedPanelRoute
+  '/api/chat': typeof ApiChatRoute
   '/api/public/site-image/$': typeof ApiPublicSiteImageSplatRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/admin': typeof AdminRoute
   '/panel': typeof AuthenticatedPanelRoute
+  '/api/chat': typeof ApiChatRoute
   '/api/public/site-image/$': typeof ApiPublicSiteImageSplatRoute
 }
 export interface FileRoutesById {
@@ -58,19 +66,22 @@ export interface FileRoutesById {
   '/_authenticated': typeof AuthenticatedRouteRouteWithChildren
   '/admin': typeof AdminRoute
   '/_authenticated/panel': typeof AuthenticatedPanelRoute
+  '/api/chat': typeof ApiChatRoute
   '/api/public/site-image/$': typeof ApiPublicSiteImageSplatRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/admin' | '/panel' | '/api/public/site-image/$'
+  fullPaths:
+    '/' | '/admin' | '/panel' | '/api/chat' | '/api/public/site-image/$'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/admin' | '/panel' | '/api/public/site-image/$'
+  to: '/' | '/admin' | '/panel' | '/api/chat' | '/api/public/site-image/$'
   id:
     | '__root__'
     | '/'
     | '/_authenticated'
     | '/admin'
     | '/_authenticated/panel'
+    | '/api/chat'
     | '/api/public/site-image/$'
   fileRoutesById: FileRoutesById
 }
@@ -78,6 +89,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AdminRoute: typeof AdminRoute
+  ApiChatRoute: typeof ApiChatRoute
   ApiPublicSiteImageSplatRoute: typeof ApiPublicSiteImageSplatRoute
 }
 
@@ -111,6 +123,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedPanelRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
     }
+    '/api/chat': {
+      id: '/api/chat'
+      path: '/api/chat'
+      fullPath: '/api/chat'
+      preLoaderRoute: typeof ApiChatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/site-image/$': {
       id: '/api/public/site-image/$'
       path: '/api/public/site-image/$'
@@ -136,6 +155,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AdminRoute: AdminRoute,
+  ApiChatRoute: ApiChatRoute,
   ApiPublicSiteImageSplatRoute: ApiPublicSiteImageSplatRoute,
 }
 export const routeTree = rootRouteImport

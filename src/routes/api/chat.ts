@@ -136,12 +136,18 @@ export const Route = createFileRoute("/api/chat")({
           onFinish: async ({ messages: finalMessages }) => {
             if (!leadId) return;
             const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
+            const { data: existing } = await supabaseAdmin
+              .from("chat_leads")
+              .select("summary")
+              .eq("id", leadId)
+              .maybeSingle();
+            const patch: Record<string, unknown> = { messages: finalMessages };
+            if (!existing?.summary) {
+              patch["summary"] = transcriptSummary(finalMessages as UIMessage[]);
+            }
             const { error } = await supabaseAdmin
               .from("chat_leads")
-              .update({
-                messages: finalMessages as never,
-                summary: transcriptSummary(finalMessages as UIMessage[]),
-              } as never)
+              .update(patch as never)
               .eq("id", leadId);
             if (error) console.error("chat lead save failed", error.message);
           },
