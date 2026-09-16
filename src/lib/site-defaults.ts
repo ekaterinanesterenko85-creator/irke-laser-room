@@ -123,6 +123,7 @@ export type SiteContent = {
   contacts: Contacts;
   footer: Footer;
   seo: Seo;
+  chat: Chat;
 };
 
 export type SiteData = {
