@@ -7,6 +7,7 @@ import { adminLoadAll } from "@/lib/admin.functions";
 import { ServicesTab } from "@/components/admin/services-tab";
 import { ImagesTab } from "@/components/admin/images-tab";
 import { AccessTab } from "@/components/admin/access-tab";
+import { LeadsTab } from "@/components/admin/leads-tab";
 import {
   ContentSection,
   ListSection,
