@@ -126,8 +126,8 @@ function ServiceRow({
   busy: boolean;
   onSave: (patch: Partial<Service>) => Promise<void>;
   onDelete: () => Promise<void>;
-  onMoveUp?: () => void;
-  onMoveDown?: () => void;
+  onMoveUp?: (() => void) | undefined;
+  onMoveDown?: (() => void) | undefined;
 }) {
   const [draft, setDraft] = useState(service);
   const [saving, setSaving] = useState(false);

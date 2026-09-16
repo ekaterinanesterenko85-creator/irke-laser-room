@@ -50,7 +50,7 @@ export const saveContentKey = createServerFn({ method: "POST" })
     await assertAdmin(context as unknown as AuthedContext);
     const { error } = await context.supabase
       .from("site_content")
-      .upsert({ key: data.key, value: data.value }, { onConflict: "key" });
+      .upsert({ key: data.key, value: data.value as never }, { onConflict: "key" });
     if (error) throw new Error(error.message);
     return { ok: true };
   });
@@ -145,7 +145,10 @@ export const saveImage = createServerFn({ method: "POST" })
       if (data.storage_path !== undefined) patch["storage_path"] = data.storage_path;
       if (data.alt !== undefined) patch["alt"] = data.alt;
       if (data.sort_order !== undefined) patch["sort_order"] = data.sort_order;
-      const { error } = await supabase.from("site_images").update(patch).eq("id", data.id);
+      const { error } = await supabase
+        .from("site_images")
+        .update(patch as never)
+        .eq("id", data.id);
       if (error) throw new Error(error.message);
       return { ok: true };
     }
