@@ -15,7 +15,7 @@ import { Badge } from "@/components/ui/badge";
 
 type LeadMessage = { role?: string; parts?: { type?: string; text?: string }[] };
 
-function transcript(messages: unknown): { role: string; text: string }[] {
+function transcript(messages: ChatLead["messages"]): { role: string; text: string }[] {
   if (!Array.isArray(messages)) return [];
   return (messages as LeadMessage[])
     .map((message) => ({

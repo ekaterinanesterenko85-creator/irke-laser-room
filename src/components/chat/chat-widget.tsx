@@ -285,7 +285,7 @@ function ChatConversation({
   ].join(" ");
   const bookingLink = `https://wa.me/${contacts.phoneRaw}?text=${encodeURIComponent(bookingText)}`;
 
-  async function handleSubmit(event: React.FormEvent) {
+  async function handleSubmit(_message: unknown, event: React.FormEvent) {
     event.preventDefault();
     const text = input.trim();
     if (!text || isBusy) return;
