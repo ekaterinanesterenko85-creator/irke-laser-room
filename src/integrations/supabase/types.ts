@@ -14,6 +14,45 @@ export type Database = {
   }
   public: {
     Tables: {
+      chat_leads: {
+        Row: {
+          consent: boolean
+          created_at: string
+          id: string
+          messages: Json
+          name: string
+          needs_human: boolean
+          phone: string
+          status: string
+          summary: string | null
+          updated_at: string
+        }
+        Insert: {
+          consent?: boolean
+          created_at?: string
+          id?: string
+          messages?: Json
+          name: string
+          needs_human?: boolean
+          phone: string
+          status?: string
+          summary?: string | null
+          updated_at?: string
+        }
+        Update: {
+          consent?: boolean
+          created_at?: string
+          id?: string
+          messages?: Json
+          name?: string
+          needs_human?: boolean
+          phone?: string
+          status?: string
+          summary?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       services: {
         Row: {
           badge: string | null
