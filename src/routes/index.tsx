@@ -28,7 +28,10 @@ import {
   HeartHandshake,
   Sparkles,
   Menu,
+  Moon,
+  Sun,
 } from "lucide-react";
+import { useEffect, useState } from "react";
 import cabinet1Asset from "@/assets/cabinet-1.jpg.asset.json";
 import cabinet2Asset from "@/assets/cabinet-2.jpg.asset.json";
 import cabinet3Asset from "@/assets/cabinet-3.jpg.asset.json";
@@ -205,6 +208,44 @@ function MessengerButtons({ fullWidth = false }: { fullWidth?: boolean }) {
   );
 }
 
+function ThemeToggle() {
+  const [isDark, setIsDark] = useState(false);
+
+  useEffect(() => {
+    const savedTheme = window.localStorage.getItem("irke-theme");
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const shouldUseDark = savedTheme ? savedTheme === "dark" : prefersDark;
+
+    document.documentElement.classList.toggle("dark", shouldUseDark);
+    document.documentElement.style.colorScheme = shouldUseDark ? "dark" : "light";
+    setIsDark(shouldUseDark);
+  }, []);
+
+  const toggleTheme = () => {
+    const nextIsDark = !isDark;
+    document.documentElement.classList.toggle("dark", nextIsDark);
+    document.documentElement.style.colorScheme = nextIsDark ? "dark" : "light";
+    window.localStorage.setItem("irke-theme", nextIsDark ? "dark" : "light");
+    setIsDark(nextIsDark);
+  };
+
+  const label = isDark ? "Включить светлую тему" : "Включить тёмную тему";
+
+  return (
+    <Button
+      type="button"
+      variant="outline"
+      size="icon"
+      className="shrink-0 rounded-full"
+      onClick={toggleTheme}
+      aria-label={label}
+      title={label}
+    >
+      {isDark ? <Sun aria-hidden="true" /> : <Moon aria-hidden="true" />}
+    </Button>
+  );
+}
+
 function Header() {
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/60 bg-background/80 backdrop-blur-md">
@@ -225,39 +266,43 @@ function Header() {
           ))}
         </nav>
 
-        <div className="hidden md:block">
+        <div className="hidden items-center gap-2 md:flex">
           <Button asChild size="sm" className="rounded-full px-6">
             <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer">
               Записаться
             </a>
           </Button>
+          <ThemeToggle />
         </div>
 
-        <Sheet>
-          <SheetTrigger asChild className="md:hidden">
-            <Button variant="ghost" size="icon" aria-label="Открыть меню">
-              <Menu className="h-5 w-5" />
-            </Button>
-          </SheetTrigger>
-          <SheetContent side="right" className="w-72">
-            <div className="flex flex-col gap-6 pt-8">
-              {navItems.map((item) => (
-                <a
-                  key={item.href}
-                  href={item.href}
-                  className="text-lg font-medium text-foreground hover:text-primary"
-                >
-                  {item.label}
-                </a>
-              ))}
-              <Button asChild className="mt-4 w-full">
-                <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer">
-                  Записаться
-                </a>
+        <div className="flex items-center gap-1 md:hidden">
+          <ThemeToggle />
+          <Sheet>
+            <SheetTrigger asChild>
+              <Button variant="ghost" size="icon" aria-label="Открыть меню">
+                <Menu className="h-5 w-5" />
               </Button>
-            </div>
-          </SheetContent>
-        </Sheet>
+            </SheetTrigger>
+            <SheetContent side="right" className="w-72">
+              <div className="flex flex-col gap-6 pt-8">
+                {navItems.map((item) => (
+                  <a
+                    key={item.href}
+                    href={item.href}
+                    className="text-lg font-medium text-foreground hover:text-primary"
+                  >
+                    {item.label}
+                  </a>
+                ))}
+                <Button asChild className="mt-4 w-full">
+                  <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer">
+                    Записаться
+                  </a>
+                </Button>
+              </div>
+            </SheetContent>
+          </Sheet>
+        </div>
       </div>
     </header>
   );
