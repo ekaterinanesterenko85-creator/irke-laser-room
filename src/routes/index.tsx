@@ -26,6 +26,7 @@ import {
   Send,
   ShieldCheck,
   HeartHandshake,
+  Signature,
   Sparkles,
   Menu,
   Moon,
@@ -345,6 +346,7 @@ function Hero() {
             <Button asChild size="lg" className="rounded-full px-8 shadow-md">
               <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer">
                 Записаться по акции
+                <Signature aria-hidden="true" />
               </a>
             </Button>
           </div>
