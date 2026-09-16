@@ -255,6 +255,53 @@ export const bootstrapAdmin = createServerFn({ method: "POST" })
     return { ok: true };
   });
 
+export type ChatLead = {
+  id: string;
+  name: string;
+  phone: string;
+  summary: string | null;
+  needs_human: boolean;
+  status: string;
+  created_at: string;
+  messages: { role: string; parts: { type: string; text?: string }[] }[];
+};
+
+export const listChatLeads = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }): Promise<ChatLead[]> => {
+    await assertAdmin(context as unknown as AuthedContext);
+    const { data, error } = await context.supabase
+      .from("chat_leads")
+      .select("id, name, phone, summary, needs_human, status, created_at, messages")
+      .order("created_at", { ascending: false })
+      .limit(200);
+    if (error) throw new Error(error.message);
+    return (data ?? []) as ChatLead[];
+  });
+
+export const setChatLeadStatus = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input: { id: string; status: string }) => input)
+  .handler(async ({ data, context }) => {
+    await assertAdmin(context as unknown as AuthedContext);
+    const { error } = await context.supabase
+      .from("chat_leads")
+      .update({ status: data.status } as never)
+      .eq("id", data.id);
+    if (error) throw new Error(error.message);
+    return { ok: true };
+  });
+
+export const deleteChatLead = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((input: { id: string }) => input)
+  .handler(async ({ data, context }) => {
+    await assertAdmin(context as unknown as AuthedContext);
+    const { error } = await context.supabase.from("chat_leads").delete().eq("id", data.id);
+    if (error) throw new Error(error.message);
+    return { ok: true };
+  });
+
 export const adminExists = createServerFn({ method: "GET" }).handler(async () => {
   const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
   const { count } = await supabaseAdmin

@@ -35,6 +35,7 @@ import cabinet3Asset from "@/assets/cabinet-3.jpg.asset.json";
 import irkeAparatusAsset from "@/assets/irke-aparatus.jpg.asset.json";
 import irkeMirrorAsset from "@/assets/irke-mirror.jpg.asset.json";
 import { getSiteData } from "@/lib/site-content.functions";
+import { ChatWidget } from "@/components/chat/chat-widget";
 import { defaultContent, type Contacts as ContactsData, type SiteData } from "@/lib/site-defaults";
 
 export const Route = createFileRoute("/")({
@@ -713,6 +714,10 @@ function Index() {
         <Contacts data={data} />
       </main>
       <Footer data={data} />
+      <ChatWidget
+        chat={data.content.chat ?? defaultContent.chat}
+        contacts={data.content.contacts}
+      />
     </div>
   );
 }

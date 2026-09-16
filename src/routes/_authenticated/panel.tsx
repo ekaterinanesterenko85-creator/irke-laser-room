@@ -7,6 +7,7 @@ import { adminLoadAll } from "@/lib/admin.functions";
 import { ServicesTab } from "@/components/admin/services-tab";
 import { ImagesTab } from "@/components/admin/images-tab";
 import { AccessTab } from "@/components/admin/access-tab";
+import { LeadsTab } from "@/components/admin/leads-tab";
 import {
   ContentSection,
   ListSection,
@@ -88,6 +89,8 @@ function PanelPage() {
               <TabsTrigger value="images">Фотографии</TabsTrigger>
               <TabsTrigger value="contacts">Контакты</TabsTrigger>
               <TabsTrigger value="texts">Тексты</TabsTrigger>
+              <TabsTrigger value="leads">Заявки</TabsTrigger>
+              <TabsTrigger value="chat">Чат-бот</TabsTrigger>
               <TabsTrigger value="access">Доступ</TabsTrigger>
             </TabsList>
 
@@ -257,6 +260,37 @@ function PanelPage() {
                   { name: "description", label: "Описание страницы", type: "textarea" },
                   { name: "ogTitle", label: "Заголовок при отправке ссылки" },
                   { name: "ogDescription", label: "Описание при отправке ссылки", type: "textarea" },
+                ]}
+              />
+            </TabsContent>
+
+            <TabsContent value="leads" className="mt-6">
+              <LeadsTab />
+            </TabsContent>
+
+            <TabsContent value="chat" className="mt-6">
+              <ContentSection
+                contentKey="chat"
+                title="Чат-бот на сайте"
+                description="Кнопка в правом нижнем углу, тексты знакомства и указания для помощника."
+                values={data.content.chat as unknown as Record<string, unknown>}
+                reload={reload}
+                fields={[
+                  { name: "enabled", label: "Показывать чат на сайте", type: "switch" },
+                  { name: "buttonLabel", label: "Надпись на кнопке" },
+                  { name: "windowTitle", label: "Заголовок окна" },
+                  { name: "windowSubtitle", label: "Подпись в окне" },
+                  { name: "greeting", label: "Приветствие помощника", type: "textarea" },
+                  { name: "formTitle", label: "Заголовок знакомства" },
+                  { name: "formNote", label: "Пояснение к знакомству", type: "textarea" },
+                  { name: "consentText", label: "Текст согласия", type: "textarea" },
+                  { name: "startButton", label: "Кнопка начала чата" },
+                  { name: "placeholder", label: "Подсказка в поле ввода" },
+                  { name: "bookingButton", label: "Кнопка отправки заявки" },
+                  { name: "humanNote", label: "Сообщение, когда зовут Ирке", type: "textarea" },
+                  { name: "instructions", label: "Указания помощнику", type: "textarea" },
+                  { name: "privacyTitle", label: "Название политики" },
+                  { name: "privacyText", label: "Текст политики", type: "textarea" },
                 ]}
               />
             </TabsContent>
