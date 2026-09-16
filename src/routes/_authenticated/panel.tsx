@@ -88,6 +88,8 @@ function PanelPage() {
               <TabsTrigger value="images">Фотографии</TabsTrigger>
               <TabsTrigger value="contacts">Контакты</TabsTrigger>
               <TabsTrigger value="texts">Тексты</TabsTrigger>
+              <TabsTrigger value="leads">Заявки</TabsTrigger>
+              <TabsTrigger value="chat">Чат-бот</TabsTrigger>
               <TabsTrigger value="access">Доступ</TabsTrigger>
             </TabsList>
 
