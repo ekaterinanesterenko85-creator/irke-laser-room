@@ -13,11 +13,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import {
-  Sheet,
-  SheetContent,
-  SheetTrigger,
-} from "@/components/ui/sheet";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import {
   MapPin,
   Clock,
@@ -38,38 +34,35 @@ import cabinet2Asset from "@/assets/cabinet-2.jpg.asset.json";
 import cabinet3Asset from "@/assets/cabinet-3.jpg.asset.json";
 import irkeAparatusAsset from "@/assets/irke-aparatus.jpg.asset.json";
 import irkeMirrorAsset from "@/assets/irke-mirror.jpg.asset.json";
+import { getSiteData } from "@/lib/site-content.functions";
+import { defaultContent, type Contacts as ContactsData, type SiteData } from "@/lib/site-defaults";
 
 export const Route = createFileRoute("/")({
+  loader: () => getSiteData(),
   component: Index,
-  head: () => ({
-    meta: [
-      { title: "Ирке LaserRoom — лазерная эпиляция в Саратове" },
-      {
-        name: "description",
-        content:
-          "Лазерная эпиляция для женщин в центре Саратова. Тщательная, безопасная и комфортная процедура. Запись через WhatsApp, Telegram или VK. Подмышки за 500 ₽ при первом посещении.",
-      },
-      { property: "og:title", content: "Ирке LaserRoom — лазерная эпиляция в Саратове" },
-      {
-        property: "og:description",
-        content:
-          "Лазерная эпиляция для женщин в центре Саратова. Подмышки за 500 ₽ при первом посещении. Запись через WhatsApp, Telegram или VK.",
-      },
-      { property: "og:type", content: "website" },
-      { property: "og:url", content: "/" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-    links: [{ rel: "canonical", href: "/" }],
-  }),
+  errorComponent: () => (
+    <div className="flex min-h-screen items-center justify-center px-4 text-center">
+      <p className="text-muted-foreground">
+        Страница временно недоступна. Обновите её, пожалуйста.
+      </p>
+    </div>
+  ),
+  head: ({ loaderData }) => {
+    const seo = loaderData?.content.seo ?? defaultContent.seo;
+    return {
+      meta: [
+        { title: seo.title },
+        { name: "description", content: seo.description },
+        { property: "og:title", content: seo.ogTitle },
+        { property: "og:description", content: seo.ogDescription },
+        { property: "og:type", content: "website" },
+        { property: "og:url", content: "/" },
+        { name: "twitter:card", content: "summary_large_image" },
+      ],
+      links: [{ rel: "canonical", href: "/" }],
+    };
+  },
 });
-
-const PHONE = "8 909 332 90 29";
-const PHONE_RAW = "79093329029";
-const WHATSAPP_LINK = `https://wa.me/${PHONE_RAW}?text=${encodeURIComponent("Здравствуйте, хочу записаться на лазерную эпиляцию")}`;
-const TELEGRAM_LINK = "https://t.me/irke_room";
-const VK_GROUP_LINK = "https://vk.ru/club225366707";
-const VK_PERSONAL_LINK = "https://vk.ru/id460648732";
-const AVITO_LINK = "https://www.avito.ru/saratov/predlozheniya_uslug/lazernaya_epilyatsiya_3241838508";
 
 const navItems = [
   { label: "Услуги", href: "#services" },
@@ -79,132 +72,49 @@ const navItems = [
   { label: "Контакты", href: "#contacts" },
 ];
 
-const singleZones = [
-  { name: "Подмышечные впадины", price: "900 ₽" },
-  { name: "Руки до локтя", price: "900 ₽" },
-  { name: "Руки выше локтя", price: "900 ₽" },
-  { name: "Руки полностью", price: "1 700 ₽" },
-  { name: "Классическое бикини", price: "1 000 ₽" },
-  { name: "Глубокое бикини", price: "1 200 ₽" },
-  { name: "Тотальное бикини", price: "1 400 ₽" },
-  { name: "Голени", price: "1 200 ₽" },
-  { name: "Бёдра", price: "1 200 ₽" },
-  { name: "Ноги полностью", price: "2 200 ₽" },
-  { name: "Мини зоны", price: "400 ₽" },
+const whyUsIcons = [Sparkles, HeartHandshake, ShieldCheck, Clock];
+
+const fallbackGallery = [
+  { url: cabinet2Asset.url, alt: "Кабинет Ирке LaserRoom" },
+  { url: cabinet3Asset.url, alt: "Кабинет Ирке LaserRoom" },
+  { url: irkeMirrorAsset.url, alt: "Ирке Маслова в кабинете" },
 ];
 
-const complexes = [
-  {
-    name: "Мини",
-    zones: "Тотальное бикини и подмышки",
-    price: "2 200 ₽",
-    badge: "Популярный",
-  },
-  {
-    name: "Миди",
-    zones: "Голени, тотальное бикини и подмышки",
-    price: "3 200 ₽",
-    badge: "Самый популярный",
-  },
-  {
-    name: "Классик",
-    zones: "Ноги полностью, тотальное бикини и подмышки",
-    price: "4 200 ₽",
-    badge: null,
-  },
-  {
-    name: "Макси",
-    zones: "Ноги полностью, тотальное бикини, руки полностью и подмышки",
-    price: "4 900 ₽",
-    badge: null,
-  },
-];
+function whatsappLink(contacts: ContactsData, extra?: string) {
+  const text = extra ? `${contacts.whatsappText} ${extra}` : contacts.whatsappText;
+  return `https://wa.me/${contacts.phoneRaw}?text=${encodeURIComponent(text)}`;
+}
 
-const whyUs = [
-  {
-    icon: Sparkles,
-    title: "Тщательность",
-    text: "Прорабатываю каждую зону внимательно и смотрю на реакцию кожи в процессе.",
-  },
-  {
-    icon: HeartHandshake,
-    title: "Индивидуальный подход",
-    text: "Подбираю параметры под тип кожи, волос и ваш предыдущий опыт эпиляции.",
-  },
-  {
-    icon: ShieldCheck,
-    title: "Комфорт и безопасность",
-    text: "Охлаждение кожи, паузы по запросу, одноразовые расходники и приватный кабинет.",
-  },
-  {
-    icon: Clock,
-    title: "Удобное расположение и время",
-    text: "Центр Саратова, приём с 09:00 до 21:00, в том числе вечером и выходные.",
-  },
-];
-
-const steps = [
-  {
-    title: "Запись в мессенджере",
-    text: "Пишете в удобном мессенджере. Уточняем зоны, прошлый опыт и возможные противопоказания.",
-  },
-  {
-    title: "Консультация в кабинете",
-    text: "Заполняем карточку клиента, обсуждаем задачи и подбираем режим процедуры.",
-  },
-  {
-    title: "Процедура",
-    text: "Щадящая обработка с охлаждением кожи. Всё проходит в спокойной атмосфере.",
-  },
-  {
-    title: "Памятка и план",
-    text: "После визита отправляю рекомендации по уходу и помогаю спланировать следующую запись.",
-  },
-];
-
-const faq = [
-  {
-    question: "Больно ли делать лазерную эпиляцию?",
-    answer:
-      "Ощущения индивидуальные. Большинство клиенток описывают их как лёгкое покалывание или тепло. В работе используется охлаждение кожи, а при необходимости делаю паузы.",
-  },
-  {
-    question: "Сколько процедур нужно для результата?",
-    answer:
-      "Обычно курс состоит из 6–10 процедур с интервалом 4–6 недель. Через 10–14 дней после первого сеанса часть волос выпадает, кожа становится гладче.",
-  },
-  {
-    question: "Подходит ли эпиляция для светлых волос?",
-    answer:
-      "На светлых и тонких волосах результат развивается дольше, параметры подбираются индивидуально. Точнее скажу на консультации после осмотра зоны.",
-  },
-  {
-    question: "Как подготовиться к процедуре?",
-    answer:
-      "За 2–3 дня до визита побрить зону станком, не выщипывать и не использовать эпилятор. Не загорать и не наносить крем на зону в день процедуры.",
-  },
-];
-
-function MessengerButtons({ fullWidth = false }: { fullWidth?: boolean }) {
+function MessengerButtons({
+  contacts,
+  fullWidth = false,
+}: {
+  contacts: ContactsData;
+  fullWidth?: boolean;
+}) {
   return (
     <div className={`flex flex-wrap gap-3 ${fullWidth ? "w-full" : ""}`}>
       <Button asChild variant="default" className={fullWidth ? "flex-1" : ""}>
-        <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer">
+        <a href={whatsappLink(contacts)} target="_blank" rel="noopener noreferrer">
           <MessageCircle className="mr-2 h-4 w-4" />
           WhatsApp
         </a>
       </Button>
-      <Button asChild variant="secondary" className={fullWidth ? "flex-1" : ""}>
-        <a href={TELEGRAM_LINK} target="_blank" rel="noopener noreferrer">
-          <Send className="mr-2 h-4 w-4" />
-          Telegram
-        </a>
-      </Button>
-      <Button asChild variant="secondary" className={fullWidth ? "flex-1" : ""}>
-        <a href={VK_PERSONAL_LINK} target="_blank" rel="noopener noreferrer">
-          VK
-        </a>
-      </Button>
+      {contacts.showTelegram && contacts.telegram ? (
+        <Button asChild variant="secondary" className={fullWidth ? "flex-1" : ""}>
+          <a href={contacts.telegram} target="_blank" rel="noopener noreferrer">
+            <Send className="mr-2 h-4 w-4" />
+            Telegram
+          </a>
+        </Button>
+      ) : null}
+      {contacts.showVk && contacts.vkPersonal ? (
+        <Button asChild variant="secondary" className={fullWidth ? "flex-1" : ""}>
+          <a href={contacts.vkPersonal} target="_blank" rel="noopener noreferrer">
+            VK
+          </a>
+        </Button>
+      ) : null}
     </div>
   );
 }
@@ -247,16 +157,21 @@ function ThemeToggle() {
   );
 }
 
-function Header() {
+function Header({ data }: { data: SiteData }) {
+  const { brand, contacts } = data.content;
+  const items = data.content.promo.enabled
+    ? navItems
+    : navItems.filter((item) => item.href !== "#promo");
+
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/60 bg-background/80 backdrop-blur-md">
       <div className="container mx-auto flex h-16 items-center justify-between px-4 lg:px-8">
         <a href="/" className="text-xl font-semibold tracking-tight text-foreground">
-          Ирке <span className="text-primary">LaserRoom</span>
+          {brand.first} <span className="text-primary">{brand.second}</span>
         </a>
 
-        <nav className="hidden md:flex items-center gap-8">
-          {navItems.map((item) => (
+        <nav className="hidden items-center gap-8 md:flex">
+          {items.map((item) => (
             <a
               key={item.href}
               href={item.href}
@@ -269,8 +184,8 @@ function Header() {
 
         <div className="hidden items-center gap-2 md:flex">
           <Button asChild size="sm" className="rounded-full px-6">
-            <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer">
-              Записаться
+            <a href={whatsappLink(contacts)} target="_blank" rel="noopener noreferrer">
+              {brand.navCta}
             </a>
           </Button>
           <ThemeToggle />
@@ -286,7 +201,7 @@ function Header() {
             </SheetTrigger>
             <SheetContent side="right" className="w-72">
               <div className="flex flex-col gap-6 pt-8">
-                {navItems.map((item) => (
+                {items.map((item) => (
                   <a
                     key={item.href}
                     href={item.href}
@@ -296,8 +211,8 @@ function Header() {
                   </a>
                 ))}
                 <Button asChild className="mt-4 w-full">
-                  <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer">
-                    Записаться
+                  <a href={whatsappLink(contacts)} target="_blank" rel="noopener noreferrer">
+                    {brand.navCta}
                   </a>
                 </Button>
               </div>
@@ -309,13 +224,19 @@ function Header() {
   );
 }
 
-function Hero() {
+function Hero({ data }: { data: SiteData }) {
+  const { hero, contacts, promo } = data.content;
+  const heroImage = data.images.find((image) => image.slot === "hero");
+  const imageUrl = heroImage?.url ?? cabinet1Asset.url;
+  const imageAlt = heroImage?.alt ?? "Кабинет лазерной эпиляции Ирке LaserRoom";
+  const showOffer = promo.enabled && promo.showInHero;
+
   return (
     <section className="relative overflow-hidden">
       <div className="absolute inset-0 -z-10">
         <img
-          src={cabinet1Asset.url}
-          alt="Кабинет лазерной эпиляции Ирке LaserRoom"
+          src={imageUrl}
+          alt={imageAlt}
           className="h-full w-full object-cover opacity-30"
           width={1920}
           height={1080}
@@ -326,66 +247,63 @@ function Hero() {
       <div className="container mx-auto px-4 py-20 lg:px-8 lg:py-28">
         <div className="mx-auto max-w-3xl text-center">
           <p className="mb-4 text-sm font-medium uppercase tracking-wider text-primary">
-            Лазерная эпиляция для женщин
+            {hero.eyebrow}
           </p>
           <h1 className="text-4xl font-semibold leading-tight tracking-tight text-foreground sm:text-5xl lg:text-6xl">
-            Ирке <span className="text-primary">LaserRoom</span>
+            {hero.title} <span className="text-primary">{hero.titleAccent}</span>
           </h1>
-          <p className="mx-auto mt-6 max-w-xl text-lg text-muted-foreground">
-            Тщательная, безопасная и комфортная процедура в центре Саратова. Без пафоса и обещаний чуда — только честный разговор о вашем результате.
-          </p>
+          <p className="mx-auto mt-6 max-w-xl text-lg text-muted-foreground">{hero.subtitle}</p>
 
-          <div className="mx-auto mt-8 inline-flex flex-col items-center gap-4 rounded-2xl border border-border/60 bg-card/80 p-6 shadow-sm backdrop-blur-sm sm:flex-row">
-            <div className="text-center sm:text-left">
-              <p className="text-sm text-muted-foreground">При первом посещении</p>
-              <p className="text-2xl font-semibold text-foreground">
-                Подмышки за <span className="text-primary">500 ₽</span>
-              </p>
-              <p className="text-sm text-muted-foreground line-through">вместо 900 ₽</p>
+          {showOffer ? (
+            <div className="mx-auto mt-8 inline-flex flex-col items-center gap-4 rounded-2xl border border-border/60 bg-card/80 p-6 shadow-sm backdrop-blur-sm sm:flex-row">
+              <div className="text-center sm:text-left">
+                <p className="text-sm text-muted-foreground">{hero.offerLabel}</p>
+                <p className="text-2xl font-semibold text-foreground">
+                  {hero.offerText} <span className="text-primary">{hero.offerPrice}</span>
+                </p>
+                <p className="text-sm text-muted-foreground line-through">{hero.offerOldPrice}</p>
+              </div>
+              <Button asChild size="lg" className="rounded-full px-8 shadow-md">
+                <a href={whatsappLink(contacts)} target="_blank" rel="noopener noreferrer">
+                  {hero.offerButton}
+                  <Signature aria-hidden="true" />
+                </a>
+              </Button>
             </div>
-            <Button asChild size="lg" className="rounded-full px-8 shadow-md">
-              <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer">
-                Записаться по акции
-                <Signature aria-hidden="true" />
-              </a>
-            </Button>
-          </div>
+          ) : null}
 
           <div className="mt-10 flex flex-col items-center gap-3">
-            <p className="text-sm text-muted-foreground">Или напишите удобным способом</p>
-            <MessengerButtons />
+            <p className="text-sm text-muted-foreground">{hero.messengersNote}</p>
+            <MessengerButtons contacts={contacts} />
           </div>
 
-          <p className="mt-6 text-sm text-muted-foreground">
-            Отвечу за 5–10 минут, если не в процедуре
-          </p>
+          <p className="mt-6 text-sm text-muted-foreground">{hero.replyNote}</p>
         </div>
       </div>
     </section>
   );
 }
 
-function Services() {
+function Services({ data }: { data: SiteData }) {
+  const { sections } = data.content;
+  const zones = data.services.filter((service) => service.kind === "zone");
+  if (zones.length === 0) return null;
+
   return (
     <section id="services" className="py-16 lg:py-24">
       <div className="container mx-auto px-4 lg:px-8">
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
-            Услуги и цены
+            {sections.servicesTitle}
           </h2>
-          <p className="mt-4 text-muted-foreground">
-            Отдельные зоны — выбирайте только то, что нужно
-          </p>
+          <p className="mt-4 text-muted-foreground">{sections.servicesSubtitle}</p>
         </div>
 
         <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {singleZones.map((zone) => (
-            <Card
-              key={zone.name}
-              className="group transition-shadow hover:shadow-md"
-            >
+          {zones.map((zone) => (
+            <Card key={zone.id} className="group transition-shadow hover:shadow-md">
               <CardContent className="flex items-center justify-between p-5">
-                <span className="font-medium text-foreground">{zone.name}</span>
+                <span className="font-medium text-foreground">{zone.title}</span>
                 <span className="text-lg font-semibold text-primary">{zone.price}</span>
               </CardContent>
             </Card>
@@ -396,23 +314,25 @@ function Services() {
   );
 }
 
-function Complexes() {
+function Complexes({ data }: { data: SiteData }) {
+  const { sections, contacts } = data.content;
+  const complexes = data.services.filter((service) => service.kind === "complex");
+  if (complexes.length === 0) return null;
+
   return (
     <section id="complexes" className="bg-muted/50 py-16 lg:py-24">
       <div className="container mx-auto px-4 lg:px-8">
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
-            Комплексы
+            {sections.complexesTitle}
           </h2>
-          <p className="mt-4 text-muted-foreground">
-            Выгоднее, чем покупать зоны по отдельности
-          </p>
+          <p className="mt-4 text-muted-foreground">{sections.complexesSubtitle}</p>
         </div>
 
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           {complexes.map((complex) => (
             <Card
-              key={complex.name}
+              key={complex.id}
               className={`relative flex flex-col transition-shadow hover:shadow-md ${
                 complex.badge ? "border-primary/30" : ""
               }`}
@@ -423,14 +343,14 @@ function Complexes() {
                 </span>
               )}
               <CardHeader className="pb-2">
-                <CardTitle className="text-2xl">{complex.name}</CardTitle>
-                <CardDescription>{complex.zones}</CardDescription>
+                <CardTitle className="text-2xl">{complex.title}</CardTitle>
+                <CardDescription>{complex.description}</CardDescription>
               </CardHeader>
               <CardContent className="flex flex-1 flex-col justify-end">
                 <p className="text-3xl font-semibold text-primary">{complex.price}</p>
                 <Button asChild variant="outline" className="mt-4 w-full">
                   <a
-                    href={`${WHATSAPP_LINK}%20на%20комплекс%20${encodeURIComponent(complex.name)}`}
+                    href={whatsappLink(contacts, `на комплекс ${complex.title}`)}
                     target="_blank"
                     rel="noopener noreferrer"
                   >
@@ -446,7 +366,10 @@ function Complexes() {
   );
 }
 
-function Promo() {
+function Promo({ data }: { data: SiteData }) {
+  const { promo, contacts } = data.content;
+  if (!promo.enabled) return null;
+
   return (
     <section id="promo" className="py-16 lg:py-24">
       <div className="container mx-auto px-4 lg:px-8">
@@ -454,20 +377,20 @@ function Promo() {
           <CardContent className="flex flex-col items-center gap-6 p-8 text-center md:flex-row md:text-left lg:p-12">
             <div className="flex-1">
               <h2 className="text-3xl font-semibold tracking-tight text-foreground">
-                Гладкие подмышки
+                {promo.title}
               </h2>
-              <p className="mt-4 text-lg text-muted-foreground">
-                При первом посещении — подмышки за{" "}
-                <span className="font-semibold text-primary">500 ₽</span> вместо 900 ₽.
-                Акция действует один месяц с даты запуска.
-              </p>
-              <p className="mt-3 text-sm text-muted-foreground">
-                Напишите «Хочу на подмышки по акции».
-              </p>
+              <p className="mt-4 text-lg text-muted-foreground">{promo.text}</p>
+              {promo.note ? (
+                <p className="mt-3 text-sm text-muted-foreground">{promo.note}</p>
+              ) : null}
             </div>
             <Button asChild size="lg" className="rounded-full px-8 shadow-md">
-              <a href={WHATSAPP_LINK} target="_blank" rel="noopener noreferrer">
-                Хочу на подмышки по акции
+              <a
+                href={whatsappLink(contacts, promo.title)}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {promo.button}
               </a>
             </Button>
           </CardContent>
@@ -477,15 +400,18 @@ function Promo() {
   );
 }
 
-function About() {
+function About({ data }: { data: SiteData }) {
+  const { sections, about, why_us: whyUs } = data.content;
+  const aboutImage = data.images.find((image) => image.slot === "about");
+
   return (
     <section id="about" className="bg-muted/50 py-16 lg:py-24">
       <div className="container mx-auto px-4 lg:px-8">
         <div className="mx-auto grid max-w-6xl items-stretch gap-8 lg:grid-cols-[5fr_7fr] lg:gap-12">
           <div className="relative flex">
             <img
-              src={irkeAparatusAsset.url}
-              alt="Ирке Маслова — мастер лазерной эпиляции"
+              src={aboutImage?.url ?? irkeAparatusAsset.url}
+              alt={aboutImage?.alt ?? "Ирке Маслова — мастер лазерной эпиляции"}
               className="h-full min-h-[28rem] w-full rounded-2xl object-cover shadow-md"
               width={800}
               height={1000}
@@ -495,32 +421,34 @@ function About() {
           <div className="flex flex-col justify-between">
             <div>
               <h2 className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
-                О мастере
+                {sections.aboutTitle}
               </h2>
-              <p className="mt-6 text-lg text-muted-foreground">
-                Меня зовут Ирке Маслова. Я работаю с лазерной эпиляцией с июня 2023 года, прошла
-                профильное обучение и подобрала аппарат, которому доверяю.
-              </p>
-              <p className="mt-4 text-muted-foreground">
-                В кабинете важно не только качество процедуры, но и атмосфера. Сюда можно прийти
-                со своими вопросами и неловкими сомнениями — я отвечу честно и спокойно, без
-                давления и «волшебных обещаний».
-              </p>
-              <p className="mt-4 text-muted-foreground">
-                Моя задача — сделать так, чтобы вы чувствовали себя комфортно, знали, чего ждать,
-                и остались довольны результатом.
-              </p>
+              {about.paragraphs.map((paragraph, index) => (
+                <p
+                  key={index}
+                  className={
+                    index === 0
+                      ? "mt-6 text-lg text-muted-foreground"
+                      : "mt-4 text-muted-foreground"
+                  }
+                >
+                  {paragraph}
+                </p>
+              ))}
             </div>
             <div className="mt-8 grid gap-4 sm:grid-cols-2">
-              {whyUs.map((item) => (
-                <Card key={item.title} className="transition-shadow hover:shadow-md">
-                  <CardContent className="p-5">
-                    <item.icon className="h-8 w-8 text-primary" />
-                    <h3 className="mt-4 font-semibold text-foreground">{item.title}</h3>
-                    <p className="mt-2 text-sm text-muted-foreground">{item.text}</p>
-                  </CardContent>
-                </Card>
-              ))}
+              {whyUs.items.map((item, index) => {
+                const Icon = whyUsIcons[index % whyUsIcons.length]!;
+                return (
+                  <Card key={item.title} className="transition-shadow hover:shadow-md">
+                    <CardContent className="p-5">
+                      <Icon className="h-8 w-8 text-primary" />
+                      <h3 className="mt-4 font-semibold text-foreground">{item.title}</h3>
+                      <p className="mt-2 text-sm text-muted-foreground">{item.text}</p>
+                    </CardContent>
+                  </Card>
+                );
+              })}
             </div>
           </div>
         </div>
@@ -529,25 +457,28 @@ function About() {
   );
 }
 
-function Gallery() {
+function Gallery({ data }: { data: SiteData }) {
+  const { sections } = data.content;
+  const gallery = data.images.filter((image) => image.slot === "gallery");
+  const items = gallery.length > 0 ? gallery : fallbackGallery;
+  if (items.length === 0) return null;
+
   return (
     <section className="py-16 lg:py-24">
       <div className="container mx-auto px-4 lg:px-8">
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
-            Кабинет
+            {sections.galleryTitle}
           </h2>
-          <p className="mt-4 text-muted-foreground">
-            Уютное пространство для комфортной процедуры
-          </p>
+          <p className="mt-4 text-muted-foreground">{sections.gallerySubtitle}</p>
         </div>
 
         <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {[cabinet2Asset, cabinet3Asset, irkeMirrorAsset].map((asset, index) => (
+          {items.map((image, index) => (
             <div key={index} className="overflow-hidden rounded-2xl">
               <img
-                src={asset.url}
-                alt={`Фото кабинета Ирке LaserRoom ${index + 1}`}
+                src={image.url}
+                alt={image.alt}
                 className="h-64 w-full object-cover transition-transform duration-500 hover:scale-105"
                 width={600}
                 height={400}
@@ -561,18 +492,21 @@ function Gallery() {
   );
 }
 
-function Process() {
+function Process({ data }: { data: SiteData }) {
+  const { sections, steps } = data.content;
+  if (steps.items.length === 0) return null;
+
   return (
     <section className="py-16 lg:py-24">
       <div className="container mx-auto px-4 lg:px-8">
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
-            Как проходит визит
+            {sections.processTitle}
           </h2>
         </div>
 
         <div className="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-          {steps.map((step, index) => (
+          {steps.items.map((step, index) => (
             <div key={step.title} className="relative">
               <Card className="h-full transition-shadow hover:shadow-md">
                 <CardContent className="p-6">
@@ -591,16 +525,19 @@ function Process() {
   );
 }
 
-function FAQ() {
+function FAQ({ data }: { data: SiteData }) {
+  const { sections, faq } = data.content;
+  if (faq.items.length === 0) return null;
+
   return (
     <section className="bg-muted/50 py-16 lg:py-24">
       <div className="container mx-auto px-4 lg:px-8">
         <div className="mx-auto max-w-2xl">
           <h2 className="text-center text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
-            Частые вопросы
+            {sections.faqTitle}
           </h2>
           <Accordion type="single" collapsible className="mt-12">
-            {faq.map((item, index) => (
+            {faq.items.map((item, index) => (
               <AccordionItem key={index} value={`item-${index}`}>
                 <AccordionTrigger className="text-left text-foreground">
                   {item.question}
@@ -617,13 +554,15 @@ function FAQ() {
   );
 }
 
-function Contacts() {
+function Contacts({ data }: { data: SiteData }) {
+  const { sections, contacts } = data.content;
+
   return (
     <section id="contacts" className="py-16 lg:py-24">
       <div className="container mx-auto px-4 lg:px-8">
         <div className="mx-auto max-w-3xl">
           <h2 className="text-center text-3xl font-semibold tracking-tight text-foreground sm:text-4xl">
-            Контакты
+            {sections.contactsTitle}
           </h2>
 
           <Card className="mt-12">
@@ -632,47 +571,57 @@ function Contacts() {
                 <div className="flex items-start gap-4">
                   <MapPin className="mt-1 h-5 w-5 shrink-0 text-primary" />
                   <div>
-                    <p className="font-medium text-foreground">Саратов, ул. Чапаева, 38/40</p>
-                    <p className="text-sm text-muted-foreground">Кабинет 2.9, вход через «Мегаспорт»</p>
+                    <p className="font-medium text-foreground">{contacts.address}</p>
+                    <p className="text-sm text-muted-foreground">{contacts.addressNote}</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
                   <Clock className="mt-1 h-5 w-5 shrink-0 text-primary" />
                   <div>
-                    <p className="font-medium text-foreground">С 09:00 до 21:00</p>
-                    <p className="text-sm text-muted-foreground">В том числе вечером и выходные</p>
+                    <p className="font-medium text-foreground">{contacts.hours}</p>
+                    <p className="text-sm text-muted-foreground">{contacts.hoursNote}</p>
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
                   <Phone className="mt-1 h-5 w-5 shrink-0 text-primary" />
                   <div>
-                    <p className="font-medium text-foreground">{PHONE}</p>
-                    <p className="text-sm text-muted-foreground">Предпочитаю WhatsApp</p>
+                    <p className="font-medium text-foreground">{contacts.phone}</p>
+                    <p className="text-sm text-muted-foreground">{contacts.phoneNote}</p>
                   </div>
                 </div>
               </div>
 
               <div className="space-y-4">
-                <p className="font-medium text-foreground">Запись удобным способом</p>
-                <MessengerButtons fullWidth />
+                <p className="font-medium text-foreground">{contacts.bookingTitle}</p>
+                <MessengerButtons contacts={contacts} fullWidth />
 
                 <div className="mt-6 flex flex-wrap gap-3">
-                  <Button asChild variant="ghost" size="sm">
-                    <a href={TELEGRAM_LINK} target="_blank" rel="noopener noreferrer">
-                      <Send className="mr-2 h-4 w-4" />
-                      Telegram-канал
-                    </a>
-                  </Button>
-                  <Button asChild variant="ghost" size="sm">
-                    <a href={VK_GROUP_LINK} target="_blank" rel="noopener noreferrer">
-                      VK-сообщество
-                    </a>
-                  </Button>
-                  <Button asChild variant="ghost" size="sm">
-                    <a href={AVITO_LINK} target="_blank" rel="noopener noreferrer">
-                      Авито
-                    </a>
-                  </Button>
+                  {contacts.showTelegram && contacts.telegramChannel ? (
+                    <Button asChild variant="ghost" size="sm">
+                      <a
+                        href={contacts.telegramChannel}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <Send className="mr-2 h-4 w-4" />
+                        Telegram-канал
+                      </a>
+                    </Button>
+                  ) : null}
+                  {contacts.showVk && contacts.vkGroup ? (
+                    <Button asChild variant="ghost" size="sm">
+                      <a href={contacts.vkGroup} target="_blank" rel="noopener noreferrer">
+                        VK-сообщество
+                      </a>
+                    </Button>
+                  ) : null}
+                  {contacts.showAvito && contacts.avito ? (
+                    <Button asChild variant="ghost" size="sm">
+                      <a href={contacts.avito} target="_blank" rel="noopener noreferrer">
+                        Авито
+                      </a>
+                    </Button>
+                  ) : null}
                 </div>
               </div>
             </CardContent>
@@ -683,21 +632,21 @@ function Contacts() {
   );
 }
 
-function Footer() {
+function Footer({ data }: { data: SiteData }) {
+  const { footer, contacts } = data.content;
+
   return (
     <footer className="border-t border-border/60 bg-muted/50 py-10">
       <div className="container mx-auto px-4 lg:px-8">
         <div className="flex flex-col items-center justify-between gap-6 md:flex-row">
           <div className="text-center md:text-left">
-            <p className="font-semibold text-foreground">Ирке LaserRoom</p>
-            <p className="text-sm text-muted-foreground">
-              Лазерная эпиляция для женщин в Саратове
-            </p>
+            <p className="font-semibold text-foreground">{footer.title}</p>
+            <p className="text-sm text-muted-foreground">{footer.subtitle}</p>
           </div>
 
           <div className="flex flex-wrap items-center justify-center gap-4">
             <a
-              href={WHATSAPP_LINK}
+              href={whatsappLink(contacts)}
               target="_blank"
               rel="noopener noreferrer"
               className="text-muted-foreground hover:text-foreground"
@@ -705,60 +654,65 @@ function Footer() {
             >
               <MessageCircle className="h-5 w-5" />
             </a>
-            <a
-              href={TELEGRAM_LINK}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-muted-foreground hover:text-foreground"
-              aria-label="Telegram"
-            >
-              <Send className="h-5 w-5" />
-            </a>
-            <a
-              href={VK_GROUP_LINK}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-muted-foreground hover:text-foreground"
-              aria-label="VK"
-            >
-              VK
-            </a>
-            <a
-              href={AVITO_LINK}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-sm text-muted-foreground hover:text-foreground"
-            >
-              Авито
-            </a>
+            {contacts.showTelegram && contacts.telegram ? (
+              <a
+                href={contacts.telegram}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-muted-foreground hover:text-foreground"
+                aria-label="Telegram"
+              >
+                <Send className="h-5 w-5" />
+              </a>
+            ) : null}
+            {contacts.showVk && contacts.vkGroup ? (
+              <a
+                href={contacts.vkGroup}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-muted-foreground hover:text-foreground"
+                aria-label="VK"
+              >
+                VK
+              </a>
+            ) : null}
+            {contacts.showAvito && contacts.avito ? (
+              <a
+                href={contacts.avito}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-sm text-muted-foreground hover:text-foreground"
+              >
+                Авито
+              </a>
+            ) : null}
           </div>
         </div>
 
-        <p className="mt-8 text-center text-xs text-muted-foreground">
-          Результат индивидуален и зависит от особенностей кожи и волос. Для достижения устойчивого
-          эффекта обычно требуется курс процедур.
-        </p>
+        <p className="mt-8 text-center text-xs text-muted-foreground">{footer.disclaimer}</p>
       </div>
     </footer>
   );
 }
 
 function Index() {
+  const data = Route.useLoaderData();
+
   return (
     <div className="flex min-h-screen flex-col">
-      <Header />
+      <Header data={data} />
       <main className="flex-1">
-        <Hero />
-        <Services />
-        <Complexes />
-        <Promo />
-        <About />
-        <Gallery />
-        <Process />
-        <FAQ />
-        <Contacts />
+        <Hero data={data} />
+        <Services data={data} />
+        <Complexes data={data} />
+        <Promo data={data} />
+        <About data={data} />
+        <Gallery data={data} />
+        <Process data={data} />
+        <FAQ data={data} />
+        <Contacts data={data} />
       </main>
-      <Footer />
+      <Footer data={data} />
     </div>
   );
 }
