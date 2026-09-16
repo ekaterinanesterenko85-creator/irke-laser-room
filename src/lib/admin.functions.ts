@@ -263,7 +263,7 @@ export type ChatLead = {
   needs_human: boolean;
   status: string;
   created_at: string;
-  messages: unknown;
+  messages: { role: string; parts: { type: string; text?: string }[] }[];
 };
 
 export const listChatLeads = createServerFn({ method: "GET" })
