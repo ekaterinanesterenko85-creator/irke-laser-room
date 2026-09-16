@@ -93,6 +93,24 @@ export type Seo = {
   ogDescription: string;
 };
 
+export type Chat = {
+  enabled: boolean;
+  buttonLabel: string;
+  windowTitle: string;
+  windowSubtitle: string;
+  greeting: string;
+  formTitle: string;
+  formNote: string;
+  consentText: string;
+  startButton: string;
+  placeholder: string;
+  bookingButton: string;
+  humanNote: string;
+  instructions: string;
+  privacyTitle: string;
+  privacyText: string;
+};
+
 export type SiteContent = {
   brand: Brand;
   hero: Hero;
