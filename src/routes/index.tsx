@@ -713,6 +713,10 @@ function Index() {
         <Contacts data={data} />
       </main>
       <Footer data={data} />
+      <ChatWidget
+        chat={data.content.chat ?? defaultContent.chat}
+        contacts={data.content.contacts}
+      />
     </div>
   );
 }
