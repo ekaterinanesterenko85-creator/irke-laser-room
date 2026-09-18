@@ -250,7 +250,7 @@ function Hero({ data }: { data: SiteData }) {
           <p className="mb-4 text-sm font-medium uppercase tracking-wider text-primary">
             {hero.eyebrow}
           </p>
-          <h1 className="text-4xl font-semibold leading-tight tracking-tight text-foreground sm:text-5xl lg:text-6xl">
+          <h1 className="text-5xl font-semibold leading-tight tracking-tight text-foreground sm:text-6xl lg:text-7xl">
             {hero.title} <span className="text-primary">{hero.titleAccent}</span>
           </h1>
           <p className="mx-auto mt-6 max-w-xl text-lg text-muted-foreground">{hero.subtitle}</p>
