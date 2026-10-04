@@ -482,9 +482,8 @@ function Gallery({ data }: { data: SiteData }) {
                 <img
                   src={image.url}
                   alt={image.alt}
-                  className={`h-full w-full object-cover transition-transform duration-500 hover:scale-105 ${
-                    focusOnPerson ? "object-[center_58%]" : "object-center"
-                  }`}
+                  className="h-full w-full object-cover transition-transform duration-500 hover:scale-105"
+                  style={focusOnPerson ? { objectPosition: "center 58%" } : undefined}
                   width={600}
                   height={750}
                   loading="lazy"
