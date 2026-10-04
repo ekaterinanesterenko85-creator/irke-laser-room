@@ -475,18 +475,23 @@ function Gallery({ data }: { data: SiteData }) {
         </div>
 
         <div className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {items.map((image, index) => (
-            <div key={index} className="overflow-hidden rounded-2xl">
-              <img
-                src={image.url}
-                alt={image.alt}
-                className="h-64 w-full object-cover transition-transform duration-500 hover:scale-105"
-                width={600}
-                height={400}
-                loading="lazy"
-              />
-            </div>
-          ))}
+          {items.map((image, index) => {
+            const focusOnPerson = /mirror|зеркал/i.test(`${image.url} ${image.alt}`);
+            return (
+              <div key={index} className="aspect-[4/5] overflow-hidden rounded-2xl bg-muted/40">
+                <img
+                  src={image.url}
+                  alt={image.alt}
+                  className={`h-full w-full object-cover transition-transform duration-500 hover:scale-105 ${
+                    focusOnPerson ? "object-[center_58%]" : "object-center"
+                  }`}
+                  width={600}
+                  height={750}
+                  loading="lazy"
+                />
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>

@@ -1,0 +1,1339 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ирке LaserRoom — лазерная эпиляция в Саратове</title>
+    <meta
+      name="description"
+      content="Лазерная эпиляция для женщин в центре Саратова. Тщательная, безопасная и комфортная процедура. Запись через WhatsApp, Telegram или VK."
+    />
+    <style>
+      :root {
+        --radius: 0.875rem;
+        --background: oklch(0.97 0.01 235);
+        --foreground: oklch(0.3 0.03 235);
+        --card: oklch(1 0.005 235);
+        --primary: oklch(0.55 0.1 230);
+        --primary-foreground: oklch(0.99 0.005 230);
+        --secondary: oklch(0.93 0.015 230);
+        --muted: oklch(0.9 0.015 230);
+        --muted-foreground: oklch(0.5 0.03 230);
+        --border: oklch(0.88 0.015 225);
+      }
+
+      .dark {
+        --background: oklch(0.24 0.025 235);
+        --foreground: oklch(0.96 0.01 235);
+        --card: oklch(0.28 0.03 240);
+        --primary: oklch(0.65 0.12 220);
+        --primary-foreground: oklch(0.15 0.03 235);
+        --secondary: oklch(0.35 0.04 235);
+        --muted: oklch(0.35 0.04 235);
+        --muted-foreground: oklch(0.75 0.025 230);
+        --border: oklch(1 0.005 235 / 12%);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Segoe UI", Georgia, "Times New Roman", serif;
+        background: var(--background);
+        color: var(--foreground);
+        line-height: 1.5;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      img {
+        max-width: 100%;
+        display: block;
+      }
+
+      .container {
+        width: min(1120px, 100%);
+        margin: 0 auto;
+        padding: 0 1rem;
+      }
+
+      @media (min-width: 1024px) {
+        .container {
+          padding: 0 2rem;
+        }
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        border: 1px solid transparent;
+        border-radius: 999px;
+        padding: 0.65rem 1.25rem;
+        font: inherit;
+        font-size: 0.95rem;
+        font-weight: 500;
+        cursor: pointer;
+        transition: 0.2s ease;
+      }
+
+      .btn-primary {
+        background: var(--primary);
+        color: var(--primary-foreground);
+      }
+
+      .btn-secondary {
+        background: var(--secondary);
+        color: var(--foreground);
+      }
+
+      .btn-outline {
+        background: transparent;
+        border-color: var(--border);
+        color: var(--foreground);
+      }
+
+      .btn-ghost {
+        background: transparent;
+        color: var(--muted-foreground);
+      }
+
+      .btn-icon {
+        width: 2.5rem;
+        height: 2.5rem;
+        padding: 0;
+        border-radius: 999px;
+        border: 1px solid var(--border);
+        background: var(--card);
+      }
+
+      .card {
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: calc(var(--radius) + 4px);
+      }
+
+      /* Header */
+      .header {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        backdrop-filter: blur(12px);
+        background: color-mix(in oklab, var(--background) 80%, transparent);
+        border-bottom: 1px solid color-mix(in oklab, var(--border) 60%, transparent);
+      }
+
+      .header-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 4rem;
+        gap: 1rem;
+      }
+
+      .logo {
+        font-size: 1.25rem;
+        font-weight: 600;
+        letter-spacing: -0.02em;
+      }
+
+      .logo span {
+        color: var(--primary);
+      }
+
+      .nav {
+        display: none;
+        gap: 2rem;
+      }
+
+      .nav a {
+        font-size: 0.9rem;
+        color: var(--muted-foreground);
+      }
+
+      .nav a:hover {
+        color: var(--foreground);
+      }
+
+      .header-actions {
+        display: none;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .mobile-actions {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+      }
+
+      @media (min-width: 768px) {
+        .nav,
+        .header-actions {
+          display: flex;
+        }
+        .mobile-actions {
+          display: none;
+        }
+      }
+
+      .mobile-menu {
+        display: none;
+        position: fixed;
+        inset: 0;
+        z-index: 60;
+        background: color-mix(in oklab, var(--foreground) 35%, transparent);
+      }
+
+      .mobile-menu.open {
+        display: block;
+      }
+
+      .mobile-panel {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: min(18rem, 90vw);
+        height: 100%;
+        background: var(--background);
+        padding: 2rem 1.25rem;
+        display: flex;
+        flex-direction: column;
+        gap: 1.25rem;
+      }
+
+      .mobile-panel a {
+        font-size: 1.1rem;
+        font-weight: 500;
+      }
+
+      /* Hero */
+      .hero {
+        position: relative;
+        overflow: hidden;
+      }
+
+      .hero-bg {
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+      }
+
+      .hero-bg img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        opacity: 0.3;
+      }
+
+      .hero-bg::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+          to bottom,
+          color-mix(in oklab, var(--background) 60%, transparent),
+          color-mix(in oklab, var(--background) 80%, transparent),
+          var(--background)
+        );
+      }
+
+      .hero-inner {
+        padding: 5rem 0 4rem;
+        text-align: center;
+      }
+
+      @media (min-width: 1024px) {
+        .hero-inner {
+          padding: 7rem 0 5rem;
+        }
+      }
+
+      .eyebrow {
+        margin: 0 0 1rem;
+        font-size: 0.85rem;
+        font-weight: 500;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--primary);
+      }
+
+      h1 {
+        margin: 0;
+        font-size: clamp(2.8rem, 8vw, 4.5rem);
+        line-height: 1.05;
+        letter-spacing: -0.03em;
+        font-weight: 600;
+      }
+
+      h1 span {
+        color: var(--primary);
+      }
+
+      .lead {
+        margin: 1.5rem auto 0;
+        max-width: 36rem;
+        font-size: 1.125rem;
+        color: var(--muted-foreground);
+      }
+
+      .offer {
+        margin: 2rem auto 0;
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        padding: 1.5rem;
+        border: 1px solid color-mix(in oklab, var(--border) 60%, transparent);
+        border-radius: 1rem;
+        background: color-mix(in oklab, var(--card) 80%, transparent);
+        backdrop-filter: blur(8px);
+      }
+
+      @media (min-width: 640px) {
+        .offer {
+          flex-direction: row;
+          text-align: left;
+        }
+      }
+
+      .offer p {
+        margin: 0;
+      }
+
+      .offer .label {
+        font-size: 0.9rem;
+        color: var(--muted-foreground);
+      }
+
+      .offer .price-line {
+        font-size: 1.5rem;
+        font-weight: 600;
+      }
+
+      .offer .price-line span {
+        color: var(--primary);
+      }
+
+      .offer .old {
+        font-size: 0.9rem;
+        color: var(--muted-foreground);
+        text-decoration: line-through;
+      }
+
+      .messengers {
+        margin-top: 2.5rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.75rem;
+      }
+
+      .messengers-note,
+      .reply-note {
+        margin: 0;
+        font-size: 0.9rem;
+        color: var(--muted-foreground);
+      }
+
+      .reply-note {
+        margin-top: 1.5rem;
+      }
+
+      .btn-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        justify-content: center;
+      }
+
+      .btn-row.full {
+        width: 100%;
+      }
+
+      .btn-row.full .btn {
+        flex: 1;
+        min-width: 7rem;
+      }
+
+      /* Sections */
+      section {
+        padding: 4rem 0;
+      }
+
+      @media (min-width: 1024px) {
+        section {
+          padding: 6rem 0;
+        }
+      }
+
+      .section-muted {
+        background: color-mix(in oklab, var(--muted) 50%, transparent);
+      }
+
+      .section-head {
+        max-width: 36rem;
+        margin: 0 auto;
+        text-align: center;
+      }
+
+      h2 {
+        margin: 0;
+        font-size: clamp(1.75rem, 4vw, 2.25rem);
+        letter-spacing: -0.02em;
+        font-weight: 600;
+      }
+
+      .section-head p {
+        margin: 1rem 0 0;
+        color: var(--muted-foreground);
+      }
+
+      .grid-3 {
+        margin-top: 3rem;
+        display: grid;
+        gap: 1rem;
+      }
+
+      .grid-4 {
+        margin-top: 3rem;
+        display: grid;
+        gap: 1.5rem;
+      }
+
+      @media (min-width: 640px) {
+        .grid-3 {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+        .grid-4 {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      @media (min-width: 1024px) {
+        .grid-3 {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+        .grid-4 {
+          grid-template-columns: repeat(4, minmax(0, 1fr));
+        }
+      }
+
+      .service-card {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 1.25rem;
+      }
+
+      .service-card strong {
+        font-weight: 500;
+      }
+
+      .service-card .price {
+        font-size: 1.125rem;
+        font-weight: 600;
+        color: var(--primary);
+        white-space: nowrap;
+      }
+
+      .complex-card {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        padding: 1.5rem;
+      }
+
+      .complex-card.featured {
+        border-color: color-mix(in oklab, var(--primary) 30%, var(--border));
+      }
+
+      .badge {
+        position: absolute;
+        top: -0.75rem;
+        left: 1rem;
+        border-radius: 999px;
+        background: var(--primary);
+        color: var(--primary-foreground);
+        font-size: 0.75rem;
+        font-weight: 500;
+        padding: 0.25rem 0.75rem;
+      }
+
+      .complex-card h3 {
+        margin: 0;
+        font-size: 1.5rem;
+      }
+
+      .complex-card .desc {
+        margin: 0.5rem 0 0;
+        color: var(--muted-foreground);
+        font-size: 0.95rem;
+      }
+
+      .complex-card .price {
+        margin-top: auto;
+        padding-top: 1.25rem;
+        font-size: 1.875rem;
+        font-weight: 600;
+        color: var(--primary);
+      }
+
+      .complex-card .btn {
+        margin-top: 1rem;
+        width: 100%;
+        border-radius: var(--radius);
+      }
+
+      /* Promo */
+      .promo-card {
+        max-width: 48rem;
+        margin: 0 auto;
+        padding: 2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5rem;
+        text-align: center;
+        border-color: color-mix(in oklab, var(--primary) 20%, var(--border));
+        background: linear-gradient(
+          135deg,
+          color-mix(in oklab, var(--primary) 10%, var(--card)),
+          var(--card)
+        );
+      }
+
+      @media (min-width: 768px) {
+        .promo-card {
+          flex-direction: row;
+          text-align: left;
+          padding: 3rem;
+        }
+      }
+
+      .promo-card p {
+        margin: 1rem 0 0;
+        color: var(--muted-foreground);
+      }
+
+      .promo-card .note {
+        margin-top: 0.75rem;
+        font-size: 0.9rem;
+      }
+
+      /* About */
+      .about-grid {
+        display: grid;
+        gap: 2rem;
+        align-items: stretch;
+        max-width: 72rem;
+        margin: 0 auto;
+      }
+
+      @media (min-width: 1024px) {
+        .about-grid {
+          grid-template-columns: 5fr 7fr;
+          gap: 3rem;
+        }
+      }
+
+      .about-photo {
+        width: 100%;
+        min-height: 28rem;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 1rem;
+        box-shadow: 0 8px 24px color-mix(in oklab, var(--foreground) 8%, transparent);
+      }
+
+      .about-copy p {
+        color: var(--muted-foreground);
+      }
+
+      .about-copy p:first-of-type {
+        margin-top: 1.5rem;
+        font-size: 1.125rem;
+      }
+
+      .why-grid {
+        margin-top: 2rem;
+        display: grid;
+        gap: 1rem;
+      }
+
+      @media (min-width: 640px) {
+        .why-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      .why-card {
+        padding: 1.25rem;
+      }
+
+      .why-card .icon {
+        width: 2rem;
+        height: 2rem;
+        color: var(--primary);
+      }
+
+      .why-card h3 {
+        margin: 1rem 0 0;
+        font-size: 1rem;
+      }
+
+      .why-card p {
+        margin: 0.5rem 0 0;
+        font-size: 0.9rem;
+        color: var(--muted-foreground);
+      }
+
+      /* Gallery */
+      .gallery-grid {
+        margin-top: 3rem;
+        display: grid;
+        gap: 1rem;
+      }
+
+      @media (min-width: 640px) {
+        .gallery-grid {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      @media (min-width: 1024px) {
+        .gallery-grid {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+      }
+
+      .gallery-item {
+        aspect-ratio: 4 / 5;
+        overflow: hidden;
+        border-radius: 1rem;
+        background: color-mix(in oklab, var(--muted) 40%, transparent);
+      }
+
+      .gallery-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        transition: transform 0.5s ease;
+      }
+
+      .gallery-item img.person {
+        object-position: center 58%;
+      }
+
+      .gallery-item:hover img {
+        transform: scale(1.05);
+      }
+
+      /* Process */
+      .step-card {
+        height: 100%;
+        padding: 1.5rem;
+      }
+
+      .step-num {
+        width: 2.5rem;
+        height: 2.5rem;
+        border-radius: 999px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: var(--primary);
+        color: var(--primary-foreground);
+        font-size: 0.9rem;
+        font-weight: 600;
+      }
+
+      .step-card h3 {
+        margin: 1rem 0 0;
+        font-size: 1rem;
+      }
+
+      .step-card p {
+        margin: 0.5rem 0 0;
+        font-size: 0.9rem;
+        color: var(--muted-foreground);
+      }
+
+      /* FAQ */
+      .faq-wrap {
+        max-width: 36rem;
+        margin: 0 auto;
+      }
+
+      .faq-wrap h2 {
+        text-align: center;
+      }
+
+      .faq {
+        margin-top: 3rem;
+      }
+
+      .faq-item {
+        border-bottom: 1px solid var(--border);
+      }
+
+      .faq-item button {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1rem;
+        padding: 1rem 0;
+        border: 0;
+        background: transparent;
+        color: var(--foreground);
+        font: inherit;
+        font-weight: 500;
+        text-align: left;
+        cursor: pointer;
+      }
+
+      .faq-item button::after {
+        content: "+";
+        font-size: 1.25rem;
+        color: var(--muted-foreground);
+      }
+
+      .faq-item.open button::after {
+        content: "−";
+      }
+
+      .faq-answer {
+        display: none;
+        padding: 0 0 1rem;
+        color: var(--muted-foreground);
+      }
+
+      .faq-item.open .faq-answer {
+        display: block;
+      }
+
+      /* Contacts */
+      .contacts-card {
+        margin-top: 3rem;
+        padding: 2rem;
+        display: grid;
+        gap: 2rem;
+      }
+
+      @media (min-width: 768px) {
+        .contacts-card {
+          grid-template-columns: 1fr 1fr;
+        }
+      }
+
+      .contact-row {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+      }
+
+      .contact-row:last-child {
+        margin-bottom: 0;
+      }
+
+      .contact-row .icon {
+        margin-top: 0.2rem;
+        color: var(--primary);
+        flex-shrink: 0;
+      }
+
+      .contact-row p {
+        margin: 0;
+      }
+
+      .contact-row .meta {
+        font-size: 0.9rem;
+        color: var(--muted-foreground);
+      }
+
+      .booking-title {
+        margin: 0 0 1rem;
+        font-weight: 500;
+      }
+
+      .social-links {
+        margin-top: 1.5rem;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+      }
+
+      /* Footer */
+      .footer {
+        border-top: 1px solid color-mix(in oklab, var(--border) 60%, transparent);
+        background: color-mix(in oklab, var(--muted) 50%, transparent);
+        padding: 2.5rem 0;
+      }
+
+      .footer-top {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5rem;
+        text-align: center;
+      }
+
+      @media (min-width: 768px) {
+        .footer-top {
+          flex-direction: row;
+          justify-content: space-between;
+          text-align: left;
+        }
+      }
+
+      .footer-top p {
+        margin: 0;
+      }
+
+      .footer-top .sub {
+        font-size: 0.9rem;
+        color: var(--muted-foreground);
+      }
+
+      .footer-links {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .footer-links a {
+        color: var(--muted-foreground);
+      }
+
+      .footer-links a:hover {
+        color: var(--foreground);
+      }
+
+      .disclaimer {
+        margin: 2rem 0 0;
+        text-align: center;
+        font-size: 0.75rem;
+        color: var(--muted-foreground);
+      }
+
+      /* Chat stub */
+      .chat-fab {
+        position: fixed;
+        right: 1.25rem;
+        bottom: 1.25rem;
+        z-index: 40;
+        box-shadow: 0 10px 30px color-mix(in oklab, var(--foreground) 18%, transparent);
+      }
+
+      .preview-banner {
+        background: color-mix(in oklab, var(--primary) 12%, var(--background));
+        border-bottom: 1px solid var(--border);
+        padding: 0.65rem 1rem;
+        text-align: center;
+        font-size: 0.85rem;
+        color: var(--muted-foreground);
+      }
+
+      .preview-banner strong {
+        color: var(--foreground);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="preview-banner">
+      <strong>Локальный HTML-предпросмотр всего сайта.</strong>
+      Откройте этот файл в браузере или через
+      <code>открыть-предпросмотр.bat</code>.
+    </div>
+
+    <header class="header">
+      <div class="container header-inner">
+        <a class="logo" href="#">Ирке <span>LaserRoom</span></a>
+        <nav class="nav">
+          <a href="#services">Услуги</a>
+          <a href="#complexes">Комплексы</a>
+          <a href="#promo">Акция</a>
+          <a href="#about">О мастере</a>
+          <a href="#contacts">Контакты</a>
+        </nav>
+        <div class="header-actions">
+          <a
+            class="btn btn-primary"
+            href="https://wa.me/79093329029?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D1%85%D0%BE%D1%87%D1%83%20%D0%B7%D0%B0%D0%BF%D0%B8%D1%81%D0%B0%D1%82%D1%8C%D1%81%D1%8F%20%D0%BD%D0%B0%20%D0%BB%D0%B0%D0%B7%D0%B5%D1%80%D0%BD%D1%83%D1%8E%20%D1%8D%D0%BF%D0%B8%D0%BB%D1%8F%D1%86%D0%B8%D1%8E"
+            target="_blank"
+            rel="noopener noreferrer"
+            >Записаться</a
+          >
+          <button class="btn-icon" type="button" id="theme-toggle" aria-label="Переключить тему">
+            ☾
+          </button>
+        </div>
+        <div class="mobile-actions">
+          <button class="btn-icon" type="button" id="theme-toggle-mobile" aria-label="Переключить тему">
+            ☾
+          </button>
+          <button class="btn-icon" type="button" id="menu-open" aria-label="Открыть меню">☰</button>
+        </div>
+      </div>
+    </header>
+
+    <div class="mobile-menu" id="mobile-menu">
+      <div class="mobile-panel">
+        <a href="#services">Услуги</a>
+        <a href="#complexes">Комплексы</a>
+        <a href="#promo">Акция</a>
+        <a href="#about">О мастере</a>
+        <a href="#contacts">Контакты</a>
+        <a
+          class="btn btn-primary"
+          href="https://wa.me/79093329029?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D1%85%D0%BE%D1%87%D1%83%20%D0%B7%D0%B0%D0%BF%D0%B8%D1%81%D0%B0%D1%82%D1%8C%D1%81%D1%8F%20%D0%BD%D0%B0%20%D0%BB%D0%B0%D0%B7%D0%B5%D1%80%D0%BD%D1%83%D1%8E%20%D1%8D%D0%BF%D0%B8%D0%BB%D1%8F%D1%86%D0%B8%D1%8E"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Записаться</a
+        >
+      </div>
+    </div>
+
+    <main>
+      <section class="hero">
+        <div class="hero-bg">
+          <img
+            src="https://irke-laser-room.lovable.app/__l5e/assets-v1/0213a074-1835-4054-8084-a11cbdab621e/cabinet-1.jpg"
+            alt="Кабинет лазерной эпиляции Ирке LaserRoom"
+            width="1920"
+            height="1080"
+          />
+        </div>
+        <div class="container hero-inner">
+          <p class="eyebrow">Лазерная эпиляция для женщин</p>
+          <h1>Ирке <span>LaserRoom</span></h1>
+          <p class="lead">
+            Тщательная, безопасная и комфортная процедура в центре Саратова. Без пафоса и обещаний
+            чуда — только честный разговор о вашем результате.
+          </p>
+
+          <div class="offer">
+            <div>
+              <p class="label">При первом посещении</p>
+              <p class="price-line">Подмышки за <span>500 ₽</span></p>
+              <p class="old">вместо 900 ₽</p>
+            </div>
+            <a
+              class="btn btn-primary"
+              href="https://wa.me/79093329029?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D1%85%D0%BE%D1%87%D1%83%20%D0%B7%D0%B0%D0%BF%D0%B8%D1%81%D0%B0%D1%82%D1%8C%D1%81%D1%8F%20%D0%BD%D0%B0%20%D0%BB%D0%B0%D0%B7%D0%B5%D1%80%D0%BD%D1%83%D1%8E%20%D1%8D%D0%BF%D0%B8%D0%BB%D1%8F%D1%86%D0%B8%D1%8E"
+              target="_blank"
+              rel="noopener noreferrer"
+              >Записаться по акции</a
+            >
+          </div>
+
+          <div class="messengers">
+            <p class="messengers-note">Или напишите удобным способом</p>
+            <div class="btn-row">
+              <a
+                class="btn btn-primary"
+                href="https://wa.me/79093329029?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D1%85%D0%BE%D1%87%D1%83%20%D0%B7%D0%B0%D0%BF%D0%B8%D1%81%D0%B0%D1%82%D1%8C%D1%81%D1%8F%20%D0%BD%D0%B0%20%D0%BB%D0%B0%D0%B7%D0%B5%D1%80%D0%BD%D1%83%D1%8E%20%D1%8D%D0%BF%D0%B8%D0%BB%D1%8F%D1%86%D0%B8%D1%8E"
+                target="_blank"
+                rel="noopener noreferrer"
+                >WhatsApp</a
+              >
+              <a
+                class="btn btn-secondary"
+                href="https://t.me/irke_room"
+                target="_blank"
+                rel="noopener noreferrer"
+                >Telegram</a
+              >
+              <a
+                class="btn btn-secondary"
+                href="https://vk.ru/id460648732"
+                target="_blank"
+                rel="noopener noreferrer"
+                >VK</a
+              >
+            </div>
+          </div>
+          <p class="reply-note">Отвечу за 5–10 минут, если не в процедуре</p>
+        </div>
+      </section>
+
+      <section id="services">
+        <div class="container">
+          <div class="section-head">
+            <h2>Услуги и цены</h2>
+            <p>Отдельные зоны — выбирайте только то, что нужно</p>
+          </div>
+          <div class="grid-3">
+            <div class="card service-card"><strong>Подмышечные впадины</strong><span class="price">900 ₽</span></div>
+            <div class="card service-card"><strong>Руки до локтя</strong><span class="price">900 ₽</span></div>
+            <div class="card service-card"><strong>Руки выше локтя</strong><span class="price">900 ₽</span></div>
+            <div class="card service-card"><strong>Руки полностью</strong><span class="price">1 700 ₽</span></div>
+            <div class="card service-card"><strong>Классическое бикини</strong><span class="price">1 000 ₽</span></div>
+            <div class="card service-card"><strong>Глубокое бикини</strong><span class="price">1 200 ₽</span></div>
+            <div class="card service-card"><strong>Тотальное бикини</strong><span class="price">1 400 ₽</span></div>
+            <div class="card service-card"><strong>Голени</strong><span class="price">1 200 ₽</span></div>
+            <div class="card service-card"><strong>Бёдра</strong><span class="price">1 200 ₽</span></div>
+            <div class="card service-card"><strong>Ноги полностью</strong><span class="price">2 200 ₽</span></div>
+            <div class="card service-card"><strong>Мини зоны</strong><span class="price">400 ₽</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="complexes" class="section-muted">
+        <div class="container">
+          <div class="section-head">
+            <h2>Комплексы</h2>
+            <p>Выгоднее, чем покупать зоны по отдельности</p>
+          </div>
+          <div class="grid-4">
+            <div class="card complex-card featured">
+              <span class="badge">Популярный</span>
+              <h3>Мини</h3>
+              <p class="desc">Тотальное бикини и подмышки</p>
+              <p class="price">2 200 ₽</p>
+              <a class="btn btn-outline" href="https://wa.me/79093329029?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D1%85%D0%BE%D1%87%D1%83%20%D0%B7%D0%B0%D0%BF%D0%B8%D1%81%D0%B0%D1%82%D1%8C%D1%81%D1%8F%20%D0%BD%D0%B0%20%D0%BA%D0%BE%D0%BC%D0%BF%D0%BB%D0%B5%D0%BA%D1%81%20%D0%9C%D0%B8%D0%BD%D0%B8" target="_blank" rel="noopener noreferrer">Записаться</a>
+            </div>
+            <div class="card complex-card featured">
+              <span class="badge">Самый популярный</span>
+              <h3>Миди</h3>
+              <p class="desc">Голени, тотальное бикини и подмышки</p>
+              <p class="price">3 200 ₽</p>
+              <a class="btn btn-outline" href="https://wa.me/79093329029?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D1%85%D0%BE%D1%87%D1%83%20%D0%B7%D0%B0%D0%BF%D0%B8%D1%81%D0%B0%D1%82%D1%8C%D1%81%D1%8F%20%D0%BD%D0%B0%20%D0%BA%D0%BE%D0%BC%D0%BF%D0%BB%D0%B5%D0%BA%D1%81%20%D0%9C%D0%B8%D0%B4%D0%B8" target="_blank" rel="noopener noreferrer">Записаться</a>
+            </div>
+            <div class="card complex-card">
+              <h3>Классик</h3>
+              <p class="desc">Ноги полностью, тотальное бикини и подмышки</p>
+              <p class="price">4 200 ₽</p>
+              <a class="btn btn-outline" href="https://wa.me/79093329029?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D1%85%D0%BE%D1%87%D1%83%20%D0%B7%D0%B0%D0%BF%D0%B8%D1%81%D0%B0%D1%82%D1%8C%D1%81%D1%8F%20%D0%BD%D0%B0%20%D0%BA%D0%BE%D0%BC%D0%BF%D0%BB%D0%B5%D0%BA%D1%81%20%D0%9A%D0%BB%D0%B0%D1%81%D1%81%D0%B8%D0%BA" target="_blank" rel="noopener noreferrer">Записаться</a>
+            </div>
+            <div class="card complex-card">
+              <h3>Макси</h3>
+              <p class="desc">Ноги полностью, тотальное бикини, руки полностью и подмышки</p>
+              <p class="price">4 900 ₽</p>
+              <a class="btn btn-outline" href="https://wa.me/79093329029?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D1%85%D0%BE%D1%87%D1%83%20%D0%B7%D0%B0%D0%BF%D0%B8%D1%81%D0%B0%D1%82%D1%8C%D1%81%D1%8F%20%D0%BD%D0%B0%20%D0%BA%D0%BE%D0%BC%D0%BF%D0%BB%D0%B5%D0%BA%D1%81%20%D0%9C%D0%B0%D0%BA%D1%81%D0%B8" target="_blank" rel="noopener noreferrer">Записаться</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="promo">
+        <div class="container">
+          <div class="card promo-card">
+            <div>
+              <h2>Гладкие подмышки</h2>
+              <p>
+                При первом посещении — подмышки за 500 ₽ вместо 900 ₽. Акция действует один месяц с
+                даты запуска.
+              </p>
+              <p class="note">Напишите «Хочу на подмышки по акции».</p>
+            </div>
+            <a
+              class="btn btn-primary"
+              href="https://wa.me/79093329029?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D1%85%D0%BE%D1%87%D1%83%20%D0%B7%D0%B0%D0%BF%D0%B8%D1%81%D0%B0%D1%82%D1%8C%D1%81%D1%8F%20%D0%BD%D0%B0%20%D0%93%D0%BB%D0%B0%D0%B4%D0%BA%D0%B8%D0%B5%20%D0%BF%D0%BE%D0%B4%D0%BC%D1%8B%D1%88%D0%BA%D0%B8"
+              target="_blank"
+              rel="noopener noreferrer"
+              >Хочу на подмышки по акции</a
+            >
+          </div>
+        </div>
+      </section>
+
+      <section id="about" class="section-muted">
+        <div class="container about-grid">
+          <img
+            class="about-photo"
+            src="https://irke-laser-room.lovable.app/__l5e/assets-v1/a12d67d6-d138-47db-a4b9-3e1dc2b34e5b/irke-aparatus.jpg"
+            alt="Ирке Маслова — мастер лазерной эпиляции"
+            width="800"
+            height="1000"
+            loading="lazy"
+          />
+          <div class="about-copy">
+            <h2>О мастере</h2>
+            <p>
+              Меня зовут Ирке Маслова. Я работаю с лазерной эпиляцией с июня 2023 года, прошла
+              профильное обучение и подобрала аппарат, которому доверяю.
+            </p>
+            <p>
+              В кабинете важно не только качество процедуры, но и атмосфера. Сюда можно прийти со
+              своими вопросами и неловкими сомнениями — я отвечу честно и спокойно, без давления и
+              «волшебных обещаний».
+            </p>
+            <p>
+              Моя задача — сделать так, чтобы вы чувствовали себя комфортно, знали, чего ждать, и
+              остались довольны результатом.
+            </p>
+            <div class="why-grid">
+              <div class="card why-card">
+                <div class="icon">✦</div>
+                <h3>Тщательность</h3>
+                <p>Прорабатываю каждую зону внимательно и смотрю на реакцию кожи в процессе.</p>
+              </div>
+              <div class="card why-card">
+                <div class="icon">♡</div>
+                <h3>Индивидуальный подход</h3>
+                <p>Подбираю параметры под тип кожи, волос и ваш предыдущий опыт эпиляции.</p>
+              </div>
+              <div class="card why-card">
+                <div class="icon">⛨</div>
+                <h3>Комфорт и безопасность</h3>
+                <p>Охлаждение кожи, паузы по запросу, одноразовые расходники и приватный кабинет.</p>
+              </div>
+              <div class="card why-card">
+                <div class="icon">◷</div>
+                <h3>Удобное расположение и время</h3>
+                <p>Центр Саратова, приём с 09:00 до 21:00, в том числе вечером и выходные.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="cabinet">
+        <div class="container">
+          <div class="section-head">
+            <h2>Кабинет</h2>
+            <p>Уютное пространство для комфортной процедуры</p>
+          </div>
+          <div class="gallery-grid">
+            <div class="gallery-item">
+              <img
+                src="https://irke-laser-room.lovable.app/__l5e/assets-v1/84481231-1f30-4c90-9326-f1062db3d025/cabinet-2.jpg"
+                alt="Кабинет Ирке LaserRoom"
+                width="600"
+                height="750"
+                loading="lazy"
+              />
+            </div>
+            <div class="gallery-item">
+              <img
+                src="https://irke-laser-room.lovable.app/__l5e/assets-v1/65e09aee-729d-4cd0-b9ae-0c9b31683b57/cabinet-3.jpg"
+                alt="Кабинет Ирке LaserRoom"
+                width="600"
+                height="750"
+                loading="lazy"
+              />
+            </div>
+            <div class="gallery-item">
+              <img
+                class="person"
+                src="https://irke-laser-room.lovable.app/__l5e/assets-v1/4aa45fc5-1d04-4391-aa48-53f89e38fe0e/irke-mirror.jpg"
+                alt="Ирке Маслова в кабинете"
+                width="600"
+                height="750"
+                loading="lazy"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="container">
+          <div class="section-head">
+            <h2>Как проходит визит</h2>
+          </div>
+          <div class="grid-4">
+            <div class="card step-card">
+              <div class="step-num">1</div>
+              <h3>Запись в мессенджере</h3>
+              <p>Пишете в удобном мессенджере. Уточняем зоны, прошлый опыт и возможные противопоказания.</p>
+            </div>
+            <div class="card step-card">
+              <div class="step-num">2</div>
+              <h3>Консультация в кабинете</h3>
+              <p>Заполняем карточку клиента, обсуждаем задачи и подбираем режим процедуры.</p>
+            </div>
+            <div class="card step-card">
+              <div class="step-num">3</div>
+              <h3>Процедура</h3>
+              <p>Щадящая обработка с охлаждением кожи. Всё проходит в спокойной атмосфере.</p>
+            </div>
+            <div class="card step-card">
+              <div class="step-num">4</div>
+              <h3>Памятка и план</h3>
+              <p>После визита отправляю рекомендации по уходу и помогаю спланировать следующую запись.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section-muted">
+        <div class="container faq-wrap">
+          <h2>Частые вопросы</h2>
+          <div class="faq">
+            <div class="faq-item">
+              <button type="button">Больно ли делать лазерную эпиляцию?</button>
+              <div class="faq-answer">
+                Ощущения индивидуальные. Большинство клиенток описывают их как лёгкое покалывание или
+                тепло. В работе используется охлаждение кожи, а при необходимости делаю паузы.
+              </div>
+            </div>
+            <div class="faq-item">
+              <button type="button">Сколько процедур нужно для результата?</button>
+              <div class="faq-answer">
+                Обычно курс состоит из 6–10 процедур с интервалом 4–6 недель. Через 10–14 дней после
+                первого сеанса часть волос выпадает, кожа становится гладче.
+              </div>
+            </div>
+            <div class="faq-item">
+              <button type="button">Подходит ли эпиляция для светлых волос?</button>
+              <div class="faq-answer">
+                На светлых и тонких волосах результат развивается дольше, параметры подбираются
+                индивидуально. Точнее скажу на консультации после осмотра зоны.
+              </div>
+            </div>
+            <div class="faq-item">
+              <button type="button">Как подготовиться к процедуре?</button>
+              <div class="faq-answer">
+                За 2–3 дня до визита побрить зону станком, не выщипывать и не использовать эпилятор.
+                Не загорать и не наносить крем на зону в день процедуры.
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="contacts">
+        <div class="container" style="max-width: 48rem">
+          <div class="section-head">
+            <h2>Контакты</h2>
+          </div>
+          <div class="card contacts-card">
+            <div>
+              <div class="contact-row">
+                <span class="icon">📍</span>
+                <div>
+                  <p>Саратов, ул. Чапаева, 38/40</p>
+                  <p class="meta">Кабинет 2.9, вход через «Мегаспорт»</p>
+                </div>
+              </div>
+              <div class="contact-row">
+                <span class="icon">🕒</span>
+                <div>
+                  <p>С 09:00 до 21:00</p>
+                  <p class="meta">В том числе вечером и выходные</p>
+                </div>
+              </div>
+              <div class="contact-row">
+                <span class="icon">☎</span>
+                <div>
+                  <p>8 909 332 90 29</p>
+                  <p class="meta">Предпочитаю WhatsApp</p>
+                </div>
+              </div>
+            </div>
+            <div>
+              <p class="booking-title">Запись удобным способом</p>
+              <div class="btn-row full">
+                <a
+                  class="btn btn-primary"
+                  href="https://wa.me/79093329029?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D1%85%D0%BE%D1%87%D1%83%20%D0%B7%D0%B0%D0%BF%D0%B8%D1%81%D0%B0%D1%82%D1%8C%D1%81%D1%8F%20%D0%BD%D0%B0%20%D0%BB%D0%B0%D0%B7%D0%B5%D1%80%D0%BD%D1%83%D1%8E%20%D1%8D%D0%BF%D0%B8%D0%BB%D1%8F%D1%86%D0%B8%D1%8E"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >WhatsApp</a
+                >
+                <a class="btn btn-secondary" href="https://t.me/irke_room" target="_blank" rel="noopener noreferrer">Telegram</a>
+                <a class="btn btn-secondary" href="https://vk.ru/id460648732" target="_blank" rel="noopener noreferrer">VK</a>
+              </div>
+              <div class="social-links">
+                <a class="btn btn-ghost" href="https://t.me/irke_room" target="_blank" rel="noopener noreferrer">Telegram-канал</a>
+                <a class="btn btn-ghost" href="https://vk.ru/club225366707" target="_blank" rel="noopener noreferrer">VK-сообщество</a>
+                <a class="btn btn-ghost" href="https://www.avito.ru/saratov/predlozheniya_uslug/lazernaya_epilyatsiya_3241838508" target="_blank" rel="noopener noreferrer">Авито</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <div class="container">
+        <div class="footer-top">
+          <div>
+            <p><strong>Ирке LaserRoom</strong></p>
+            <p class="sub">Лазерная эпиляция для женщин в Саратове</p>
+          </div>
+          <div class="footer-links">
+            <a href="https://wa.me/79093329029?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D1%85%D0%BE%D1%87%D1%83%20%D0%B7%D0%B0%D0%BF%D0%B8%D1%81%D0%B0%D1%82%D1%8C%D1%81%D1%8F%20%D0%BD%D0%B0%20%D0%BB%D0%B0%D0%B7%D0%B5%D1%80%D0%BD%D1%83%D1%8E%20%D1%8D%D0%BF%D0%B8%D0%BB%D1%8F%D1%86%D0%B8%D1%8E" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+            <a href="https://t.me/irke_room" target="_blank" rel="noopener noreferrer">Telegram</a>
+            <a href="https://vk.ru/club225366707" target="_blank" rel="noopener noreferrer">VK</a>
+            <a href="https://www.avito.ru/saratov/predlozheniya_uslug/lazernaya_epilyatsiya_3241838508" target="_blank" rel="noopener noreferrer">Авито</a>
+          </div>
+        </div>
+        <p class="disclaimer">
+          Результат индивидуален и зависит от особенностей кожи и волос. Для достижения устойчивого
+          эффекта обычно требуется курс процедур.
+        </p>
+      </div>
+    </footer>
+
+    <a
+      class="btn btn-primary chat-fab"
+      href="https://wa.me/79093329029?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5%2C%20%D1%85%D0%BE%D1%87%D1%83%20%D0%BF%D0%BE%D0%B4%D0%BE%D0%B1%D1%80%D0%B0%D1%82%D1%8C%20%D1%83%D1%81%D0%BB%D1%83%D0%B3%D1%83"
+      target="_blank"
+      rel="noopener noreferrer"
+      >Подобрать услугу</a
+    >
+
+    <script>
+      (function () {
+        const root = document.documentElement;
+        const saved = localStorage.getItem("irke-theme");
+        const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+        let dark = saved ? saved === "dark" : prefersDark;
+
+        function applyTheme() {
+          root.classList.toggle("dark", dark);
+          root.style.colorScheme = dark ? "dark" : "light";
+          const label = dark ? "☉" : "☾";
+          document.querySelectorAll("#theme-toggle, #theme-toggle-mobile").forEach((btn) => {
+            btn.textContent = label;
+            btn.setAttribute("aria-label", dark ? "Включить светлую тему" : "Включить тёмную тему");
+          });
+        }
+
+        applyTheme();
+
+        function toggleTheme() {
+          dark = !dark;
+          localStorage.setItem("irke-theme", dark ? "dark" : "light");
+          applyTheme();
+        }
+
+        document.getElementById("theme-toggle")?.addEventListener("click", toggleTheme);
+        document.getElementById("theme-toggle-mobile")?.addEventListener("click", toggleTheme);
+
+        const menu = document.getElementById("mobile-menu");
+        document.getElementById("menu-open")?.addEventListener("click", () => menu.classList.add("open"));
+        menu?.addEventListener("click", (e) => {
+          if (e.target === menu || e.target.closest("a")) menu.classList.remove("open");
+        });
+
+        document.querySelectorAll(".faq-item button").forEach((btn) => {
+          btn.addEventListener("click", () => {
+            const item = btn.parentElement;
+            const wasOpen = item.classList.contains("open");
+            document.querySelectorAll(".faq-item").forEach((el) => el.classList.remove("open"));
+            if (!wasOpen) item.classList.add("open");
+          });
+        });
+      })();
+    </script>
+  </body>
+</html>

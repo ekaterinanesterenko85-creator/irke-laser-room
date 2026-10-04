@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Предпросмотр — Кабинет | Ирке LaserRoom</title>
+    <style>
+      :root {
+        --bg: #faf7f4;
+        --fg: #2c2420;
+        --muted: #6b5e57;
+        --card: #f1ebe6;
+        --border: #e4dbd3;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Segoe UI", Georgia, serif;
+        color: var(--fg);
+        background:
+          radial-gradient(circle at top left, #f3e7df 0%, transparent 40%),
+          radial-gradient(circle at bottom right, #efe6df 0%, transparent 35%),
+          var(--bg);
+        min-height: 100vh;
+      }
+
+      .wrap {
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 2.5rem 1.25rem 4rem;
+      }
+
+      h1 {
+        margin: 0;
+        text-align: center;
+        font-size: clamp(1.8rem, 4vw, 2.5rem);
+        font-weight: 600;
+        letter-spacing: -0.02em;
+      }
+
+      .subtitle {
+        margin: 1rem auto 0;
+        max-width: 36rem;
+        text-align: center;
+        color: var(--muted);
+        line-height: 1.5;
+      }
+
+      .gallery {
+        margin-top: 2.5rem;
+        display: grid;
+        gap: 1rem;
+      }
+
+      @media (min-width: 640px) {
+        .gallery {
+          grid-template-columns: repeat(2, minmax(0, 1fr));
+        }
+      }
+
+      @media (min-width: 1024px) {
+        .gallery {
+          grid-template-columns: repeat(3, minmax(0, 1fr));
+        }
+      }
+
+      .item {
+        aspect-ratio: 4 / 5;
+        overflow: hidden;
+        border-radius: 1rem;
+        background: var(--card);
+      }
+
+      .item img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center;
+        transition: transform 0.5s ease;
+      }
+
+      .item img.person {
+        object-position: center 58%;
+      }
+
+      .item:hover img {
+        transform: scale(1.05);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <h1>Кабинет</h1>
+      <p class="subtitle">Уютное пространство для комфортной процедуры</p>
+
+      <div class="gallery">
+        <div class="item">
+          <img
+            src="https://irke-laser-room.lovable.app/__l5e/assets-v1/84481231-1f30-4c90-9326-f1062db3d025/cabinet-2.jpg"
+            alt="Кабинет Ирке LaserRoom"
+            width="600"
+            height="750"
+          />
+        </div>
+
+        <div class="item">
+          <img
+            src="https://irke-laser-room.lovable.app/__l5e/assets-v1/65e09aee-729d-4cd0-b9ae-0c9b31683b57/cabinet-3.jpg"
+            alt="Кабинет Ирке LaserRoom"
+            width="600"
+            height="750"
+          />
+        </div>
+
+        <div class="item">
+          <img
+            class="person"
+            src="https://irke-laser-room.lovable.app/__l5e/assets-v1/4aa45fc5-1d04-4391-aa48-53f89e38fe0e/irke-mirror.jpg"
+            alt="Ирке Маслова в кабинете"
+            width="600"
+            height="750"
+          />
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
